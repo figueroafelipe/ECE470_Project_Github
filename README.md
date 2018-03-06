@@ -40,5 +40,8 @@ limit of each joints. If the program stop, output the current anle of the joint.
 Save the code as ... (e.g. Project_Assignment2) and run the code in the terminal with "python Project_Assignment2.py"
 
 ## Authors
+Felipe Figueroa
+Di Zhu
 
 ## License
+the MIT License
