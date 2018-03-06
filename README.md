@@ -1,6 +1,7 @@
 # ECE470_Project Demonstrate robot motion with code in V-rep
 ## Prerequisites
 V-REP PRO EDU version 3.4.0
+Python 3.6 version
 
 ## Installing
 **For MacOS Operation** 
@@ -24,7 +25,8 @@ then click the assembly toolbar
 
 6. Install Python [Here](https://www.anaconda.com/download/#macos)
    (Choose Python 3.6 version)
-
+   
+7. Download the enviroment [Here](https://d1b10bmlvqabco.cloudfront.net/attach/jchxn1s6tkg20r/h6wx8zvddi8vt/je9d8omtib3t/ece470.yml)
 ## Running the tests
 
 
