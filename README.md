@@ -26,9 +26,16 @@ then click the assembly toolbar
 6. Install Python [Here](https://www.anaconda.com/download/#macos)
    (Choose Python 3.6 version)
    
-7. Download the enviroment [Here](https://d1b10bmlvqabco.cloudfront.net/attach/jchxn1s6tkg20r/h6wx8zvddi8vt/je9d8omtib3t/ece470.yml)
-## Running the tests
+7. Download the enviroment [ece470.yml](https://d1b10bmlvqabco.cloudfront.net/attach/jchxn1s6tkg20r/h6wx8zvddi8vt/je9d8omtib3t/ece470.yml)
+   the one professor uses for the class. To active an environment:
+   on MacOS in Terminal, run "source active ece470"
 
+## Running the tests
+The code in the
+
+Since the arm of the UR3 might interactive with itself or the floor. Use the test file to check the 
+limit of each joints. If the program stop, output the current anle of the joint.
 
 ## Authors
+
 ## License
