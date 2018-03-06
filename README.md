@@ -28,7 +28,8 @@ then click the assembly toolbar
    
 7. Download the enviroment [ece470.yml](https://d1b10bmlvqabco.cloudfront.net/attach/jchxn1s6tkg20r/h6wx8zvddi8vt/je9d8omtib3t/ece470.yml)
    the one professor uses for the class. To active an environment:
-   In Terminal, run "source active ece470"
+   In Terminal, run "source active ece470" 
+   For more information about create the environment[Help](https://conda.io/docs/user-guide/tasks/manage-environments.html#creating-an-environment-from-an-environment-yml-file)
 
 ## Running the tests
 The code in the
