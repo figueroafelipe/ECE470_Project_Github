@@ -69,12 +69,14 @@ if result != vrep.simx_return_ok:
     raise Exception('could not get first joint variable')
 #print('current value of second joint variable: theta = {:f}'.format(theta2))
 # Set the desired value of the second joint variable from one limit to other and back
-vrep.simxSetJointTargetPosition(clientID, joint_two_handle, 1.7, vrep.simx_opmode_oneshot)
+vrep.simxSetJointTargetPosition(clientID, joint_two_handle, 1.2, vrep.simx_opmode_oneshot)
 time.sleep(2) # Wait two seconds
-vrep.simxSetJointTargetPosition(clientID, joint_two_handle, -1.7, vrep.simx_opmode_oneshot)
+vrep.simxSetJointTargetPosition(clientID, joint_two_handle, -1.2, vrep.simx_opmode_oneshot)
 time.sleep(2) # Wait two seconds
 vrep.simxSetJointTargetPosition(clientID, joint_two_handle, theta2, vrep.simx_opmode_oneshot)
 time.sleep(2) # Wait two seconds
+
+
 
 # Get the current value of the third joint variable
 result, theta3 = vrep.simxGetJointPosition(clientID, joint_three_handle, vrep.simx_opmode_blocking)
@@ -82,9 +84,9 @@ if result != vrep.simx_return_ok:
     raise Exception('could not get first joint variable')
 #print('current value of third joint variable: theta = {:f}'.format(theta2))
 # Set the desired value of the third joint variable from one limit to other
-vrep.simxSetJointTargetPosition(clientID, joint_three_handle, 2.7, vrep.simx_opmode_oneshot)
+vrep.simxSetJointTargetPosition(clientID, joint_three_handle, 2.6, vrep.simx_opmode_oneshot)
 time.sleep(2) # Wait two seconds
-vrep.simxSetJointTargetPosition(clientID, joint_three_handle, -2.7, vrep.simx_opmode_oneshot)
+vrep.simxSetJointTargetPosition(clientID, joint_three_handle, -2.6, vrep.simx_opmode_oneshot)
 time.sleep(2) # Wait two seconds
 vrep.simxSetJointTargetPosition(clientID, joint_three_handle, theta3, vrep.simx_opmode_oneshot)
 time.sleep(2) # Wait two seconds
