@@ -1,6 +1,6 @@
 # ECE470_Project Demonstrate robot motion with code in V-rep
 ## Prerequisites
-V-REP PRO EDU version 3.4.0
+V-REP PRO EDU version 3.4.0<br />
 Python 3.6 version
 
 ## Installing
@@ -27,17 +27,21 @@ then click the assembly toolbar
    (Choose Python 3.6 version)
    
 7. Download the enviroment [ece470.yml](https://d1b10bmlvqabco.cloudfront.net/attach/jchxn1s6tkg20r/h6wx8zvddi8vt/je9d8omtib3t/ece470.yml)
-   the one professor uses for the class. To active an environment:
+   the one professor uses for the class. To active an environment:<br />
    In Terminal, run "source active ece470" 
-   For more information about create the environment[Help](https://conda.io/docs/user-guide/tasks/manage-environments.html#creating-an-environment-from-an-environment-yml-file)
+   For more information about create the environment [Help](https://conda.io/docs/user-guide/tasks/manage-environments.html#creating-an-environment-from-an-environment-yml-file)
 
 ## Running the tests
-The code in the
+Reference the test.py to write the code showing each joint moving one at a time to its positive and negative joints limit. 
 
 Since the arm of the UR3 might interactive with itself or the floor. Use the test file to check the 
 limit of each joints. If the program stop, output the current anle of the joint.
 
+Save the code as ... (e.g. Project_Assignment2) and run the code in the terminal with "python Project_Assignment2.py"
+
 ## Authors
+Felipe Figueroa
+Di Zhu
 
 ## License
-
+the MIT License
