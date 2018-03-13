@@ -43,6 +43,8 @@ Save the code as ... (e.g. Project_Assignment2) and run the code in the terminal
 Derive the forward Kinematics based on the UR3 schematic in V-Rep
 ![Alt text](https://github.com/figueroafelipe/ECE470_Project/blob/master/schematic%20ur3.jpg?raw=true "Title")
 All the dimensions of UR3 are found in the UR3 CAD model.
+![Alt text](https://github.com/figueroafelipe/ECE470_Project/blob/master/UR3%20CAD.jpg?raw=true "Title")
+
 The screw axis for the 6 joints are<br /> 
 S1=[0;0;1;0;0;0]<br />
 S2=[-1;0;0;0;-0.152;0]<br />
