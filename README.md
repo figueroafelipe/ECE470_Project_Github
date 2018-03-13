@@ -29,6 +29,15 @@ grippers. To attach the gripper to the robot arm select the gripper, then select
    In Terminal, run "source active ece470" 
    For more information about creating an environment [Help](https://conda.io/docs/user-guide/tasks/manage-environments.html#creating-an-environment-from-an-environment-yml-file)
    
+## Running the tests
+Reference the test.py to write the code showing each joint moving one at a time to its positive and negative joint limits. 
+
+Since the arm of the UR3 might interact with itself or the floor use the program to check the 
+limit of each joints. If the arm is not able to reach its target angle due to an obstacle, output the current angle of the joint.
+
+Save the code as ... (e.g. Project_Assignment2) and run the code in the terminal with "python Project_Assignment2.py"
+
+   
 ## Forward Kinematics 
 ## Due 03-12
 Derive the forward Kinematics based on the UR3 schematic in V-Rep
@@ -43,14 +52,12 @@ S6=[-1;0;0;0;-0.692;0]<br />
 The initial M is<br />
 M=[1 0 0   -0.2455; 0 1 0 0; 0 0 1 0.692; 0 0 0 1]<br />
 User given a set of six angles within the joints limit. The tool frame pose can be calculated as 
-T=expm([S1]theta) * expm([S1]theta)*expm([S1]theta)
+T=expm([S1]*theta1) * expm([S2]*theta2)*expm([S3]*theta3)*expm([S4]*theta4)*expm([S5]theta5)*expm([S6]*theta6)*M
+
 ## Running the tests
-Reference the test.py to write the code showing each joint moving one at a time to its positive and negative joint limits. 
+Running the test and compare the pose of the tool in V-REP with the code output pose. Both the position and the rotation.
+Rotation matrix need to convert to Euler angles in python
 
-Since the arm of the UR3 might interact with itself or the floor use the program to check the 
-limit of each joints. If the arm is not able to reach its target angle due to an obstacle, output the current angle of the joint.
-
-Save the code as ... (e.g. Project_Assignment2) and run the code in the terminal with "python Project_Assignment2.py"
 
 ## Authors
 Felipe Figueroa<br />
