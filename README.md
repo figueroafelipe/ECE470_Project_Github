@@ -33,13 +33,17 @@ grippers. To attach the gripper to the robot arm select the gripper, then select
 ## Due 03-12
 Derive the forward Kinematics based on the UR3 schematic in V-Rep
 All the dimensions of UR3 are found in the UR3 CAD model.
-The screw axis for the 6 joints are 
+The screw axis for the 6 joints are<br /> 
 S1=[0;0;1;0;0;0]<br />
 S2=[-1;0;0;0;-0.152;0]<br />
 S3=[-1;0;0;0;-0.396;0]<br />
 S4=[-1;0;0;0;-0.609;0]<br />
 S5=[0;0;1;0;0.11;0]<br />
-S6=[-1;0;0;0;-0.692;0]
+S6=[-1;0;0;0;-0.692;0]<br />
+The initial M is<br />
+M=[1 0 0   -0.2455; 0 1 0 0; 0 0 1 0.692; 0 0 0 1]<br />
+User given a set of six angles within the joints limit. The tool frame pose can be calculated as 
+T=expm([S1]theta) * expm([S1]theta)*expm([S1]theta)
 ## Running the tests
 Reference the test.py to write the code showing each joint moving one at a time to its positive and negative joint limits. 
 
