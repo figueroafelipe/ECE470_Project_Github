@@ -28,6 +28,18 @@ grippers. To attach the gripper to the robot arm select the gripper, then select
    this is the environment provided for this project. To active an environment:<br />
    In Terminal, run "source active ece470" 
    For more information about creating an environment [Help](https://conda.io/docs/user-guide/tasks/manage-environments.html#creating-an-environment-from-an-environment-yml-file)
+   
+## Forward Kinematics 
+## Due 03-12
+Derive the forward Kinematics based on the UR3 schematic in V-Rep
+All the dimensions of UR3 are found in the UR3 CAD model.
+The screw axis for the 6 joints are 
+S1=[0;0;1;0;0;0]
+S2=[-1;0;0;0;-0.152;0]
+S3=[-1;0;0;0;-0.396;0]
+S4=[-1;0;0;0;-0.609;0]
+S5=[0;0;1;0;0.11;0]
+S6=[-1;0;0;0;-0.692;0]
 
 ## Running the tests
 Reference the test.py to write the code showing each joint moving one at a time to its positive and negative joint limits. 
