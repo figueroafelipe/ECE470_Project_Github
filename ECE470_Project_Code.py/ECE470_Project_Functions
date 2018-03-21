@@ -1,0 +1,141 @@
+#
+# ECE470_Project_Functions
+#
+# Created by Felipe F. and Di Z.
+# 3/21/18
+#
+# To store all necessary program functions
+
+import vrep
+import math
+import time
+import numpy as np
+import scipy as sp
+from scipy import linalg
+
+
+def forward_kinematics (theta1,theta2,theta3,theta4,theta5,theta6):
+    S = np.matrix([[0, -1, -1, -1, 0, -1], [0, 0, 0, 0, 0, 0], [1, 0, 0, 0, 1, 0], [0, 0, 0, 0, 0, 0],
+                   [0, -0.152, -0.396, -0.609, 0.11, -0.692], [0, 0, 0, 0, 0, 0]])
+
+    S1_skew = np.matrix([[0, -1, 0, 0], [1, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]])
+    S2_skew = np.matrix([[0, 0, 0, 0], [0, 0, 1, -0.152], [0, -1, 0, 0], [0, 0, 0, 0]])
+    S3_skew = np.matrix([[0, 0, 0, 0], [0, 0, 1, -0.396], [0, -1, 0, 0], [0, 0, 0, 0]])
+    S4_skew = np.matrix([[0, 0, 0, 0], [0, 0, 1, -0.609], [0, -1, 0, 0], [0, 0, 0, 0]])
+    S5_skew = np.matrix([[0, -1, 0, 0], [1, 0, 0, 0.11], [0, 0, 0, 0], [0, 0, 0, 0]])
+    S6_skew = np.matrix([[0, 0, 0, 0], [0, 0, 1, -0.692], [0, -1, 0, 0], [0, 0, 0, 0]])
+    M = np.matrix([[1, 0, 0, -0.342], [0, 1, 0, 0], [0, 0, 1, 0.692], [0, 0, 0, 1]])
+
+    a = np.dot(linalg.expm(S1_skew * theta1),linalg.expm(S2_skew * theta2))
+    b = np.dot(a,linalg.expm(S3_skew * theta3))
+    c = np.dot(b, linalg.expm(S4_skew * theta4))
+    d = np.dot(c, linalg.expm(S5_skew * theta5))
+    e = np.dot(d, linalg.expm(S6_skew * theta6))
+    T_1in0 = np.dot(e,M)
+    return T_1in0
+
+
+def move_robot (clientID, position, eulerAngles, theta1, theta2, theta3, theta4, theta5, theta6):
+
+    # Get "handle" to ALL joints of robot
+    # Get "handle" to the first joint of robot
+    result, joint_one_handle = vrep.simxGetObjectHandle(clientID, 'UR3_joint1', vrep.simx_opmode_blocking)
+    if result != vrep.simx_return_ok:
+        raise Exception('could not get object handle for first joint')
+
+    # Get "handle" to the second joint of robot
+    result, joint_two_handle = vrep.simxGetObjectHandle(clientID, 'UR3_joint2', vrep.simx_opmode_blocking)
+    if result != vrep.simx_return_ok:
+        raise Exception('could not get object handle for first joint')
+
+    # Get "handle" to the third joint of robot
+    result, joint_three_handle = vrep.simxGetObjectHandle(clientID, 'UR3_joint3', vrep.simx_opmode_blocking)
+    if result != vrep.simx_return_ok:
+        raise Exception('could not get object handle for first joint')
+
+    # Get "handle" to the fourth joint of robot
+    result, joint_four_handle = vrep.simxGetObjectHandle(clientID, 'UR3_joint4', vrep.simx_opmode_blocking)
+    if result != vrep.simx_return_ok:
+        raise Exception('could not get object handle for first joint')
+
+    # Get "handle" to the fifth joint of robot
+    result, joint_five_handle = vrep.simxGetObjectHandle(clientID, 'UR3_joint5', vrep.simx_opmode_blocking)
+    if result != vrep.simx_return_ok:
+        raise Exception('could not get object handle for first joint')
+
+    # Get "handle" to the sixth joint of robot
+    result, joint_six_handle = vrep.simxGetObjectHandle(clientID, 'UR3_joint6', vrep.simx_opmode_blocking)
+    if result != vrep.simx_return_ok:
+        raise Exception('could not get object handle for first joint')
+
+    # Get "handle" to WorldReferenceFrame
+    result, WorldReferenceFrame_handle = vrep.simxGetObjectHandle(clientID, 'T_1in0_ReferenceFrame',
+                                                                  vrep.simx_opmode_blocking)
+    if result != vrep.simx_return_ok:
+        raise Exception('could not get object handle for first joint')
+
+    # Get "handle" to T_1in0_ReferenceFrame
+    result, T_1in0_ReferenceFrame_handle = vrep.simxGetObjectHandle(clientID, 'T_1in0_ReferenceFrame',
+                                                                    vrep.simx_opmode_blocking)
+    if result != vrep.simx_return_ok:
+        raise Exception('could not get object handle for first joint')
+
+    # Wait two seconds
+    time.sleep(2)
+
+    # Set T_1in0_ReferenceFrame position and orientation
+    vrep.simxSetObjectPosition(clientID, T_1in0_ReferenceFrame_handle, WorldReferenceFrame_handle, position,
+                               vrep.simx_opmode_oneshot)
+    vrep.simxSetObjectOrientation(clientID, T_1in0_ReferenceFrame_handle, WorldReferenceFrame_handle, eulerAngles,
+                                  vrep.simx_opmode_oneshot)
+
+    # Position all the joint angles according to user input
+    # Set the desired value of the first joint variable
+    t = time.process_time()
+    vrep.simxSetJointTargetPosition(clientID, joint_one_handle, theta1, vrep.simx_opmode_oneshot)
+    t1 = time.process_time() - t
+    # t1 = vrep.simxGetLastCmdTime(clientID)
+    # print(t1)
+    time.sleep(2)  # Wait two seconds
+
+    # Set the desired value of the second joint variable
+    t = time.process_time()
+    vrep.simxSetJointTargetPosition(clientID, joint_two_handle, theta2, vrep.simx_opmode_oneshot)
+    t2 = time.process_time() - t
+    # t2 = vrep.simxGetLastCmdTime(clientID)
+    time.sleep(2)  # Wait two seconds
+
+    # Set the desired value of the third joint variable
+    t = time.process_time()
+    vrep.simxSetJointTargetPosition(clientID, joint_three_handle, theta3, vrep.simx_opmode_oneshot)
+    t3 = time.process_time() - t
+    # t3 = vrep.simxGetLastCmdTime(clientID)
+    time.sleep(2)  # Wait two seconds
+
+    # Set the desired value of the fourth joint variable
+    t = time.process_time()
+    vrep.simxSetJointTargetPosition(clientID, joint_four_handle, theta4, vrep.simx_opmode_oneshot)
+    t4 = time.process_time() - t
+    # t4 = vrep.simxGetLastCmdTime(clientID)
+    time.sleep(2)  # Wait two seconds
+
+    # Set the desired value of the fifth joint variable
+    t = time.process_time()
+    vrep.simxSetJointTargetPosition(clientID, joint_five_handle, theta5, vrep.simx_opmode_oneshot)
+    t5 = time.process_time() - t
+    # t5 = vrep.simxGetLastCmdTime(clientID)
+    time.sleep(2)  # Wait two seconds
+
+    # Set the desired value of the sixth joint variable
+    t = time.process_time()
+    vrep.simxSetJointTargetPosition(clientID, joint_six_handle, theta6, vrep.simx_opmode_oneshot)
+    t6 = time.process_time() - t
+    # t6 = vrep.simxGetLastCmdTime(clientID)
+    time.sleep(2)  # Wait two seconds
+
+
+
+
+
+
+
