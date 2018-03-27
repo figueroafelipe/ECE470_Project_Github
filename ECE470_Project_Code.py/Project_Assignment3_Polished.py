@@ -20,12 +20,12 @@ import os.path
 #sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 import ECE470_Project_Functions as myfct
 
-(theta1,theta2, theta3, theta4, theta5, theta6) = myfct.get_user_angles ()
+(theta) = myfct.get_user_angles()
 
-(T_1in0, R_1in0, eulerAngles, p_1in0) = myfct.forward_kinematics(theta1,theta2,theta3,theta4,theta5,theta6)
+#(T_1in0, R_1in0, eulerAngles, p_1in0) = myfct.forward_kinematics(theta)
 
 clientID = myfct.start_simulation()
 
-myfct.move_robot(clientID, p_1in0, eulerAngles, theta1, theta2, theta3, theta4, theta5, theta6)
+myfct.move_robot(clientID, theta)
 
 myfct.end_simulation(clientID)
