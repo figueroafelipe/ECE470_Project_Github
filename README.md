@@ -46,8 +46,8 @@ All the dimensions of UR3 are found in the UR3 CAD model.
 ![Alt text](https://github.com/figueroafelipe/ECE470_Project/blob/master/UR3%20CAD.jpg?raw=true "Title")
 
 The screw axis for the 6 joints are<br /> 
-S1=[&nbsp;&nbsp;0;&nbsp;0;&nbsp;1;&nbsp;0;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0;&nbsp;0]<br />
-S2=[-1;&nbsp;0;&nbsp;0;&nbsp;0;-0.152;&nbsp;0]<br />
+S1=[&nbsp;&nbsp;0;&nbsp;0;&nbsp;1;&nbsp;0;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0;&nbsp;0]<br />
+S2=[-1;&nbsp;0;&nbsp;0;&nbsp;0;&nbsp;-0.152;&nbsp;0]<br />
 S3=[-1;&nbsp;0;&nbsp;0;&nbsp;0;-0.396;&nbsp;0]<br />
 S4=[-1;&nbsp;0;&nbsp;0;&nbsp;0;-0.609;&nbsp;0]<br />
 S5=[&nbsp;0;&nbsp;0;&nbsp;&nbsp;1;&nbsp;0;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.11;&nbsp;0]<br />
