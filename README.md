@@ -41,9 +41,9 @@ Save the code as ... (e.g. Project_Assignment2) and run the code in the terminal
 ## Forward Kinematics 
 ## Due 03-12
 Derive the forward Kinematics based on the UR3 schematic in V-Rep
-![Alt text](https://github.com/figueroafelipe/ECE470_Project/blob/master/schematic%20ur3.jpg?raw=true "Title")
+![Alt text](picture new address)
 All the dimensions of UR3 are found in the UR3 CAD model.
-![Alt text](https://github.com/figueroafelipe/ECE470_Project/blob/master/UR3%20CAD.jpg?raw=true "Title")
+![Alt text](picture new address)
 
 The screw axis for the 6 joints are<br /> 
 S1=[&nbsp;&nbsp;0;&nbsp;0;&nbsp;1;&nbsp;0;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0;&nbsp;0]<br />
@@ -65,6 +65,11 @@ Rotation matrix need to convert to Euler angles in python
 ## Due 03-27
 Derive the Inverse Kinematics based on the UR3 schematic and previous calculatd screw axis for the 6 joints
 (1) Random generating or inputing a goal pose in the code of the UR3
+(2) Draw a frame in the simulator at the goal pose and add a frame of the tool
+(3) Use iterate algorithm to generate the 6 joint angles that achieve the goal pose
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;choose a random set of theta as the initial guess<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Find the current pose of the tool T1in0(theta)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Find the bracket of the spatial twist that alighn frame 1 to frame 2 logm(T2in0*inv(T1in0))
 
 ## References
 
