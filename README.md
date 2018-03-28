@@ -46,12 +46,12 @@ All the dimensions of UR3 are found in the UR3 CAD model.
 ![Alt text](picture new address)
 
 The screw axis for the 6 joints are<br /> 
-S1=[&nbsp;&nbsp;0;&nbsp;0;&nbsp;1;&nbsp;0;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0;&nbsp;0]<br />
-S2=[-1;&nbsp;0;&nbsp;0;&nbsp;0;&nbsp;-0.152;&nbsp;0]<br />
-S3=[-1;&nbsp;0;&nbsp;0;&nbsp;0;-0.396;&nbsp;0]<br />
-S4=[-1;&nbsp;0;&nbsp;0;&nbsp;0;-0.609;&nbsp;0]<br />
-S5=[&nbsp;0;&nbsp;0;&nbsp;&nbsp;1;&nbsp;0;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.11;&nbsp;0]<br />
-S6=[-1;&nbsp;0;&nbsp;0;&nbsp;0;-0.692;&nbsp;0]<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;S1=[&nbsp;&nbsp;0;&nbsp;0;&nbsp;1;&nbsp;0;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0;&nbsp;0]<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;S2=[-1;&nbsp;0;&nbsp;0;&nbsp;0;&nbsp;-0.152;&nbsp;0]<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;S3=[-1;&nbsp;0;&nbsp;0;&nbsp;0;-0.396;&nbsp;0]<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;S4=[-1;&nbsp;0;&nbsp;0;&nbsp;0;-0.609;&nbsp;0]<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;S5=[&nbsp;0;&nbsp;0;&nbsp;&nbsp;1;&nbsp;0;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.11;&nbsp;0]<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;S6=[-1;&nbsp;0;&nbsp;0;&nbsp;0;-0.692;&nbsp;0]<br />
 The initial M is<br />
 M=[1 0 0   -0.2455; 0 1 0 0; 0 0 1 0.692; 0 0 0 1]<br />
 User given a set of six angles within the joints limit. The tool frame pose can be predicted as 
@@ -75,6 +75,7 @@ Derive the Inverse Kinematics based on the UR3 schematic and previous calculatd 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Calculate the inverse velocity kinematic: theta_dot=inv(J)*spatial twist<br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theta=theta+theta_dot<br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The stopping point is when the norm of the twist is smaller than a constant sigma. The tool reaches to goal position
+<br />
 <br />
 (4) Compare the goal pose frame with the tool frame to see if it's aligned
 (5) Due to the inital guess of the set of theta. The algorithm may not converge. Or the robot may be in the condition of self-collision. Indicate the goal pose is not reachable in the code
