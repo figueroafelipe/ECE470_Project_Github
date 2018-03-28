@@ -46,12 +46,12 @@ All the dimensions of UR3 are found in the UR3 CAD model.
 ![Alt text](https://github.com/figueroafelipe/ECE470_Project/blob/master/UR3%20CAD.jpg?raw=true "Title")
 
 The screw axis for the 6 joints are<br /> 
-S1=[0;0;1;0;0;0]<br />
-S2=[-1;0;0;0;-0.152;0]<br />
-S3=[-1;0;0;0;-0.396;0]<br />
-S4=[-1;0;0;0;-0.609;0]<br />
-S5=[0;0;1;0;0.11;0]<br />
-S6=[-1;0;0;0;-0.692;0]<br />
+S1=[ 0; 0; 1; 0;     0; 0]<br />
+S2=[-1; 0; 0; 0;-0.152; 0]<br />
+S3=[-1; 0; 0; 0;-0.396; 0]<br />
+S4=[-1; 0; 0; 0;-0.609; 0]<br />
+S5=[ 0; 0; 1; 0;  0.11; 0]<br />
+S6=[-1; 0; 0; 0;-0.692; 0]<br />
 The initial M is<br />
 M=[1 0 0   -0.2455; 0 1 0 0; 0 0 1 0.692; 0 0 0 1]<br />
 User given a set of six angles within the joints limit. The tool frame pose can be predicted as 
