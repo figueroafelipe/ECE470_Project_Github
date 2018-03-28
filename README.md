@@ -61,6 +61,11 @@ T=expm([S1]*theta1) * expm([S2]*theta2)*expm([S3]*theta3)*expm([S4]*theta4)*expm
 Running the test and compare the pose of the tool in V-REP with the code output pose. Both the position and the rotation.
 Rotation matrix need to convert to Euler angles in python
 
+## Inverse Kinematics
+## Due 03-27
+Derive the Inverse Kinematics based on the UR3 schematic and previous calculatd screw axis for the 6 joints
+(1) Random generating or inputing a goal pose in the code of the UR3
+
 ## References
 
 
