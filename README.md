@@ -67,14 +67,17 @@ Derive the Inverse Kinematics based on the UR3 schematic and previous calculatd 
 (1) Random generating or inputing a goal pose in the code of the UR3
 (2) Draw a frame in the simulator at the goal pose and add a frame of the tool
 (3) Use iterate algorithm to generate the 6 joint angles that achieve the goal pose<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;choose a random set of theta as the initial guess<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Choose a random set of theta as the initial guess<br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Find the current pose of the tool T1in0(theta)<br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Find the bracket of the spatial twist that alighn frame 1 to frame 2 logm(T2in0*inv(T1in0))<br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Find J(theta) with current set of joint variables<br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Calculate the inverse velocity kinematic: theta_dot=inv(J)*spatial twist<br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theta=theta+theta_dot<br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The stopping point is when the norm of the twist is smaller than a constant sigma. The tool reaches to goal position
-
+<br />
+(4) Compare the goal pose frame with the tool frame to see if it's aligned
+(5) Due to the inital guess of the set of theta. The algorithm may not converge. Or the robot may be in the condition of self-collision. Indicate the goal pose is not reachable in the code
 
 
 ## References
