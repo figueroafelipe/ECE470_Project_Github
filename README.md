@@ -41,17 +41,17 @@ Save the code as ... (e.g. Project_Assignment2) and run the code in the terminal
 ## Forward Kinematics 
 ## Due 03-12
 Derive the forward Kinematics based on the UR3 schematic in V-Rep
-![Alt text](https://github.com/figueroafelipe/ECE470_Project/blob/master/schematic%20ur3.jpg?raw=true "Title")
+![Alt text](picture new address)
 All the dimensions of UR3 are found in the UR3 CAD model.
-![Alt text](https://github.com/figueroafelipe/ECE470_Project/blob/master/UR3%20CAD.jpg?raw=true "Title")
+![Alt text](picture new address)
 
 The screw axis for the 6 joints are<br /> 
-S1=[0;0;1;0;0;0]<br />
-S2=[-1;0;0;0;-0.152;0]<br />
-S3=[-1;0;0;0;-0.396;0]<br />
-S4=[-1;0;0;0;-0.609;0]<br />
-S5=[0;0;1;0;0.11;0]<br />
-S6=[-1;0;0;0;-0.692;0]<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;S1=[&nbsp;&nbsp;0;&nbsp;0;&nbsp;1;&nbsp;0;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0;&nbsp;0]<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;S2=[-1;&nbsp;0;&nbsp;0;&nbsp;0;&nbsp;-0.152;&nbsp;0]<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;S3=[-1;&nbsp;0;&nbsp;0;&nbsp;0;-0.396;&nbsp;0]<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;S4=[-1;&nbsp;0;&nbsp;0;&nbsp;0;-0.609;&nbsp;0]<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;S5=[&nbsp;0;&nbsp;0;&nbsp;&nbsp;1;&nbsp;0;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.11;&nbsp;0]<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;S6=[-1;&nbsp;0;&nbsp;0;&nbsp;0;-0.692;&nbsp;0]<br />
 The initial M is<br />
 M=[1 0 0   -0.2455; 0 1 0 0; 0 0 1 0.692; 0 0 0 1]<br />
 User given a set of six angles within the joints limit. The tool frame pose can be predicted as 
@@ -60,6 +60,26 @@ T=expm([S1]*theta1) * expm([S2]*theta2)*expm([S3]*theta3)*expm([S4]*theta4)*expm
 ## Running the tests
 Running the test and compare the pose of the tool in V-REP with the code output pose. Both the position and the rotation.
 Rotation matrix need to convert to Euler angles in python
+
+## Inverse Kinematics
+## Due 03-27
+Derive the Inverse Kinematics based on the UR3 schematic and previous calculatd screw axis for the 6 joints
+(1) Random generating or inputing a goal pose in the code of the UR3
+(2) Draw a frame in the simulator at the goal pose and add a frame of the tool
+(3) Use iterate algorithm to generate the 6 joint angles that achieve the goal pose<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Choose a random set of theta as the initial guess<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Find the current pose of the tool T1in0(theta)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Find the bracket of the spatial twist that alighn frame 1 to frame 2 logm(T2in0*inv(T1in0))<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Find J(theta) with current set of joint variables<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Calculate the inverse velocity kinematic: theta_dot=inv(J)*spatial twist<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theta=theta+theta_dot<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The stopping point is when the norm of the twist is smaller than a constant sigma. The tool reaches to goal position
+<br />
+<br />
+(4) Compare the goal pose frame with the tool frame to see if it's aligned
+(5) Due to the inital guess of the set of theta. The algorithm may not converge. Or the robot may be in the condition of self-collision. Indicate the goal pose is not reachable in the code
+
 
 ## References
 
