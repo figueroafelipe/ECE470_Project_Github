@@ -200,41 +200,93 @@ def start_simulation():
 
     return clientID
 
+def get_robot_handles (clientID, robo):
+    if robo == 0:
+        # Get "handle" to ALL joints of robot
+        # Get "handle" to the first joint of robot
+        result, robot0_joint_one_handle = vrep.simxGetObjectHandle(clientID, 'UR3_joint1', vrep.simx_opmode_blocking)
+        if result != vrep.simx_return_ok:
+            raise Exception('could not get object handle for first joint')
+
+        # Get "handle" to the second joint of robot
+        result, robot0_joint_two_handle = vrep.simxGetObjectHandle(clientID, 'UR3_joint2', vrep.simx_opmode_blocking)
+        if result != vrep.simx_return_ok:
+            raise Exception('could not get object handle for first joint')
+
+        # Get "handle" to the third joint of robot
+        result, robot0_joint_three_handle = vrep.simxGetObjectHandle(clientID, 'UR3_joint3', vrep.simx_opmode_blocking)
+        if result != vrep.simx_return_ok:
+            raise Exception('could not get object handle for first joint')
+
+        # Get "handle" to the fourth joint of robot
+        result, robot0_joint_four_handle = vrep.simxGetObjectHandle(clientID, 'UR3_joint4', vrep.simx_opmode_blocking)
+        if result != vrep.simx_return_ok:
+            raise Exception('could not get object handle for first joint')
+
+        # Get "handle" to the fifth joint of robot
+        result, robot0_joint_five_handle = vrep.simxGetObjectHandle(clientID, 'UR3_joint5', vrep.simx_opmode_blocking)
+        if result != vrep.simx_return_ok:
+            raise Exception('could not get object handle for first joint')
+
+        # Get "handle" to the sixth joint of robot
+        result, robot0_joint_six_handle = vrep.simxGetObjectHandle(clientID, 'UR3_joint6', vrep.simx_opmode_blocking)
+        if result != vrep.simx_return_ok:
+            raise Exception('could not get object handle for first joint')
+
+        # Wait two seconds
+        time.sleep(2)
+
+        robo_handles = np.array([robot0_joint_one_handle, robot0_joint_two_handle, robot0_joint_three_handle, robot0_joint_four_handle, robot0_joint_five_handle, robot0_joint_six_handle])
+        return robo_handles
+
+    elif robo == 1:
+        # Get "handle" to ALL joints of robot
+        # Get "handle" to the first joint of robot
+        result, robot1_joint_one_handle = vrep.simxGetObjectHandle(clientID, 'UR3_joint1#0', vrep.simx_opmode_blocking)
+        if result != vrep.simx_return_ok:
+            raise Exception('could not get object handle for first joint')
+
+        # Get "handle" to the second joint of robot
+        result, robot1_joint_two_handle = vrep.simxGetObjectHandle(clientID, 'UR3_joint2#0', vrep.simx_opmode_blocking)
+        if result != vrep.simx_return_ok:
+            raise Exception('could not get object handle for first joint')
+
+        # Get "handle" to the third joint of robot
+        result, robot1_joint_three_handle = vrep.simxGetObjectHandle(clientID, 'UR3_joint3#0', vrep.simx_opmode_blocking)
+        if result != vrep.simx_return_ok:
+            raise Exception('could not get object handle for first joint')
+
+        # Get "handle" to the fourth joint of robot
+        result, robot1_joint_four_handle = vrep.simxGetObjectHandle(clientID, 'UR3_joint4#0', vrep.simx_opmode_blocking)
+        if result != vrep.simx_return_ok:
+            raise Exception('could not get object handle for first joint')
+
+        # Get "handle" to the fifth joint of robot
+        result, robot1_joint_five_handle = vrep.simxGetObjectHandle(clientID, 'UR3_joint5#0', vrep.simx_opmode_blocking)
+        if result != vrep.simx_return_ok:
+            raise Exception('could not get object handle for first joint')
+
+        # Get "handle" to the sixth joint of robot
+        result, robot1_joint_six_handle = vrep.simxGetObjectHandle(clientID, 'UR3_joint6#0', vrep.simx_opmode_blocking)
+        if result != vrep.simx_return_ok:
+            raise Exception('could not get object handle for first joint')
+
+        # Wait two seconds
+        time.sleep(2)
+
+        robo_handles = np.array([robot1_joint_one_handle, robot1_joint_two_handle, robot1_joint_three_handle, robot1_joint_four_handle,
+             robot1_joint_five_handle, robot1_joint_six_handle])
+        return robo_handles
+
+    else:
+        raise Exception('Wrong input, could not get handles')
+
 #Moves the joint of the robot to the prescribed angle given
-def move_robot (clientID, theta):
+def move_robot (clientID, theta, robo):
 
     (T_1in0, R_1in0, end_eulerAngles, end_position) = forward_kinematics(theta)
 
-    # Get "handle" to ALL joints of robot
-    # Get "handle" to the first joint of robot
-    result, joint_one_handle = vrep.simxGetObjectHandle(clientID, 'UR3_joint1', vrep.simx_opmode_blocking)
-    if result != vrep.simx_return_ok:
-        raise Exception('could not get object handle for first joint')
-
-    # Get "handle" to the second joint of robot
-    result, joint_two_handle = vrep.simxGetObjectHandle(clientID, 'UR3_joint2', vrep.simx_opmode_blocking)
-    if result != vrep.simx_return_ok:
-        raise Exception('could not get object handle for first joint')
-
-    # Get "handle" to the third joint of robot
-    result, joint_three_handle = vrep.simxGetObjectHandle(clientID, 'UR3_joint3', vrep.simx_opmode_blocking)
-    if result != vrep.simx_return_ok:
-        raise Exception('could not get object handle for first joint')
-
-    # Get "handle" to the fourth joint of robot
-    result, joint_four_handle = vrep.simxGetObjectHandle(clientID, 'UR3_joint4', vrep.simx_opmode_blocking)
-    if result != vrep.simx_return_ok:
-        raise Exception('could not get object handle for first joint')
-
-    # Get "handle" to the fifth joint of robot
-    result, joint_five_handle = vrep.simxGetObjectHandle(clientID, 'UR3_joint5', vrep.simx_opmode_blocking)
-    if result != vrep.simx_return_ok:
-        raise Exception('could not get object handle for first joint')
-
-    # Get "handle" to the sixth joint of robot
-    result, joint_six_handle = vrep.simxGetObjectHandle(clientID, 'UR3_joint6', vrep.simx_opmode_blocking)
-    if result != vrep.simx_return_ok:
-        raise Exception('could not get object handle for first joint')
+    robot_handles = get_robot_handles(clientID, robo)
 
     # Get "handle" to WorldReferenceFrame
     result, WorldReferenceFrame_handle = vrep.simxGetObjectHandle(clientID, 'T_1in0_ReferenceFrame',
@@ -248,38 +300,54 @@ def move_robot (clientID, theta):
     if result != vrep.simx_return_ok:
         raise Exception('could not get object handle for first joint')
 
+    # Get "handle" to UR3_0_ReferenceFrame
+    result, UR3_0_ReferenceFrame_handle = vrep.simxGetObjectHandle(clientID, 'UR3_0_ReferenceFrame',
+                                                                        vrep.simx_opmode_blocking)
+    if result != vrep.simx_return_ok:
+        raise Exception('could not get object handle for first joint')
+
     # Wait two seconds
     time.sleep(2)
 
-    # Set T_1in0_ReferenceFrame position and orientation
-    vrep.simxSetObjectPosition(clientID, T_1in0_ReferenceFrame_handle, WorldReferenceFrame_handle, end_position,
-                               vrep.simx_opmode_oneshot)
-    vrep.simxSetObjectOrientation(clientID, T_1in0_ReferenceFrame_handle, WorldReferenceFrame_handle, end_eulerAngles,
-                                  vrep.simx_opmode_oneshot)
+    if robo == 0:
+        # Set T_1in0_ReferenceFrame position and orientation
+        vrep.simxSetObjectPosition(clientID, T_1in0_ReferenceFrame_handle, WorldReferenceFrame_handle, end_position,
+                                   vrep.simx_opmode_oneshot)
+        vrep.simxSetObjectOrientation(clientID, T_1in0_ReferenceFrame_handle, WorldReferenceFrame_handle, end_eulerAngles,
+                                      vrep.simx_opmode_oneshot)
+    elif robo == 1:
+        # Set T_1in0_ReferenceFrame position and orientation
+        vrep.simxSetObjectPosition(clientID, T_1in0_ReferenceFrame_handle, UR3_0_ReferenceFrame_handle, end_position,
+                                   vrep.simx_opmode_oneshot)
+        vrep.simxSetObjectOrientation(clientID, T_1in0_ReferenceFrame_handle, UR3_0_ReferenceFrame_handle,
+                                      end_eulerAngles,
+                                      vrep.simx_opmode_oneshot)
+    else:
+        raise Exception('Problem with robot number')
 
     # Position all the joint angles according to user input
     # Set the desired value of the first joint variable
-    vrep.simxSetJointTargetPosition(clientID, joint_one_handle, theta[0], vrep.simx_opmode_oneshot)
+    vrep.simxSetJointTargetPosition(clientID, robot_handles[0], theta[0], vrep.simx_opmode_oneshot)
     time.sleep(2)  # Wait two seconds
 
     # Set the desired value of the second joint variable
-    vrep.simxSetJointTargetPosition(clientID, joint_two_handle, theta[1], vrep.simx_opmode_oneshot)
+    vrep.simxSetJointTargetPosition(clientID, robot_handles[1], theta[1], vrep.simx_opmode_oneshot)
     time.sleep(2)  # Wait two seconds
 
     # Set the desired value of the third joint variable
-    vrep.simxSetJointTargetPosition(clientID, joint_three_handle, theta[2], vrep.simx_opmode_oneshot)
+    vrep.simxSetJointTargetPosition(clientID, robot_handles[2], theta[2], vrep.simx_opmode_oneshot)
     time.sleep(2)  # Wait two seconds
 
     # Set the desired value of the fourth joint variable
-    vrep.simxSetJointTargetPosition(clientID, joint_four_handle, theta[3], vrep.simx_opmode_oneshot)
+    vrep.simxSetJointTargetPosition(clientID, robot_handles[3], theta[3], vrep.simx_opmode_oneshot)
     time.sleep(2)  # Wait two seconds
 
     # Set the desired value of the fifth joint variable
-    vrep.simxSetJointTargetPosition(clientID, joint_five_handle, theta[4], vrep.simx_opmode_oneshot)
+    vrep.simxSetJointTargetPosition(clientID, robot_handles[4], theta[4], vrep.simx_opmode_oneshot)
     time.sleep(2)  # Wait two seconds
 
     # Set the desired value of the sixth joint variable
-    vrep.simxSetJointTargetPosition(clientID, joint_six_handle, theta[5], vrep.simx_opmode_oneshot)
+    vrep.simxSetJointTargetPosition(clientID, robot_handles[5], theta[5], vrep.simx_opmode_oneshot)
     time.sleep(2)  # Wait two seconds
 
 #Ends the V-Rep simulation

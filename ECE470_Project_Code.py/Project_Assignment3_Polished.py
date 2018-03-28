@@ -26,6 +26,7 @@ import ECE470_Project_Functions as myfct
 
 clientID = myfct.start_simulation()
 
-myfct.move_robot(clientID, theta)
+myfct.move_robot(clientID, theta,0)
+myfct.move_robot(clientID, theta,1)
 
 myfct.end_simulation(clientID)
