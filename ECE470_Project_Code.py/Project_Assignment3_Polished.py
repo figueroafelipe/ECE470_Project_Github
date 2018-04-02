@@ -29,4 +29,5 @@ clientID = myfct.start_simulation()
 myfct.move_robot(clientID, theta,0)
 myfct.move_robot(clientID, theta,1)
 
+
 myfct.end_simulation(clientID)

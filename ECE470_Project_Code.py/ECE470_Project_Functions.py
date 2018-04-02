@@ -249,27 +249,27 @@ def get_robot_handles (clientID, robo):
         # Get "handle" to the second joint of robot
         result, robot1_joint_two_handle = vrep.simxGetObjectHandle(clientID, 'UR3_joint2#0', vrep.simx_opmode_blocking)
         if result != vrep.simx_return_ok:
-            raise Exception('could not get object handle for first joint')
+            raise Exception('could not get object handle for second joint')
 
         # Get "handle" to the third joint of robot
         result, robot1_joint_three_handle = vrep.simxGetObjectHandle(clientID, 'UR3_joint3#0', vrep.simx_opmode_blocking)
         if result != vrep.simx_return_ok:
-            raise Exception('could not get object handle for first joint')
+            raise Exception('could not get object handle for third joint')
 
         # Get "handle" to the fourth joint of robot
         result, robot1_joint_four_handle = vrep.simxGetObjectHandle(clientID, 'UR3_joint4#0', vrep.simx_opmode_blocking)
         if result != vrep.simx_return_ok:
-            raise Exception('could not get object handle for first joint')
+            raise Exception('could not get object handle for fourth joint')
 
         # Get "handle" to the fifth joint of robot
         result, robot1_joint_five_handle = vrep.simxGetObjectHandle(clientID, 'UR3_joint5#0', vrep.simx_opmode_blocking)
         if result != vrep.simx_return_ok:
-            raise Exception('could not get object handle for first joint')
+            raise Exception('could not get object handle for fifth joint')
 
         # Get "handle" to the sixth joint of robot
         result, robot1_joint_six_handle = vrep.simxGetObjectHandle(clientID, 'UR3_joint6#0', vrep.simx_opmode_blocking)
         if result != vrep.simx_return_ok:
-            raise Exception('could not get object handle for first joint')
+            raise Exception('could not get object handle for sixth joint')
 
         # Wait two seconds
         time.sleep(2)
@@ -292,19 +292,19 @@ def move_robot (clientID, theta, robo):
     result, WorldReferenceFrame_handle = vrep.simxGetObjectHandle(clientID, 'T_1in0_ReferenceFrame',
                                                                   vrep.simx_opmode_blocking)
     if result != vrep.simx_return_ok:
-        raise Exception('could not get object handle for first joint')
+        raise Exception('could not get object handle for world reference frame')
 
     # Get "handle" to T_1in0_ReferenceFrame
     result, T_1in0_ReferenceFrame_handle = vrep.simxGetObjectHandle(clientID, 'T_1in0_ReferenceFrame',
                                                                     vrep.simx_opmode_blocking)
     if result != vrep.simx_return_ok:
-        raise Exception('could not get object handle for first joint')
+        raise Exception('could not get object handle for T_1in0 reference frame')
 
     # Get "handle" to UR3_0_ReferenceFrame
     result, UR3_0_ReferenceFrame_handle = vrep.simxGetObjectHandle(clientID, 'UR3_0_ReferenceFrame',
                                                                         vrep.simx_opmode_blocking)
     if result != vrep.simx_return_ok:
-        raise Exception('could not get object handle for first joint')
+        raise Exception('could not get object handle for UR3_0 reference frame')
 
     # Wait two seconds
     time.sleep(2)
@@ -402,4 +402,72 @@ def get_user_position_and_orientation():
 
     return (position_vector, euler_angle_vector)
 
+def inCollision(clientID, robo):
+    # Get "handle" to the UR3 to UR3#0 collision object
+    result, collision_Handle_1 = vrep.simxGetCollisionHandle(clientID, 'Collision1', vrep.simx_opmode_blocking)
+    if result != vrep.simx_return_ok:
+        raise Exception('could not get object handle for UR3 to UR3#0 collision object')
 
+    # Get "handle" to the UR3 to MicoHand#0 collision object
+    result, collision_Handle_2 = vrep.simxGetCollisionHandle(clientID, 'Collision2', vrep.simx_opmode_blocking)
+    if result != vrep.simx_return_ok:
+        raise Exception('could not get object handle for UR3 to MicoHand#0 collision object')
+
+    # Get "handle" to the MicoHand to UR3#0 collision object
+    result, collision_Handle_3 = vrep.simxGetCollisionHandle(clientID, 'Collision3', vrep.simx_opmode_blocking)
+    if result != vrep.simx_return_ok:
+        raise Exception('could not get object handle for MicoHand to UR3#0 collision object')
+
+    # Get "handle" to the MicoHand to MicoHand#0 collision object
+    result, collision_Handle_4 = vrep.simxGetCollisionHandle(clientID, 'Collision4', vrep.simx_opmode_blocking)
+    if result != vrep.simx_return_ok:
+        raise Exception('could not get object handle for MicoHand to MicoHand#0 collision object')
+
+    # Get "handle" to the MicoHand to MicoHand#0 collision object
+    result, collision_Handle_5 = vrep.simxGetCollisionHandle(clientID, 'Collision6', vrep.simx_opmode_blocking)
+    if result != vrep.simx_return_ok:
+        raise Exception('could not get object handle for collection1 collision object')
+
+    #if robo == 0:
+    #    #Get "handle" to the UR3 to chair collision object
+    #    result, collision_Handle_2 = vrep.simxGetCollisionHandle(clientID, 'Collision2', vrep.simx_opmode_blocking)
+    #    if result != vrep.simx_return_ok:
+    #        raise Exception('could not get object handle for UR3 collision object')
+    #elif robo == 1:
+    #    # Get "handle" to the UR3#0 to chair collision object
+    #    result, collision_Handle_2 = vrep.simxGetCollisionHandle(clientID, 'Collision3', vrep.simx_opmode_blocking)
+    #    if result != vrep.simx_return_ok:
+    #        raise Exception('could not get object handle for UR3#0 collision object')
+    #else:
+    #    raise Exception('Problem with collision object handles')
+
+    result, collision_state_1 = vrep.simxReadCollision(clientID, collision_Handle_1, vrep.simx_opmode_blocking)
+    if result != vrep.simx_return_ok:
+        raise Exception('could not get collision state for robot collision object')
+
+    result, collision_state_2 = vrep.simxReadCollision(clientID, collision_Handle_2, vrep.simx_opmode_blocking)
+    if result != vrep.simx_return_ok:
+        raise Exception('could not get collision state for robot collision object')
+
+    result, collision_state_3 = vrep.simxReadCollision(clientID, collision_Handle_3, vrep.simx_opmode_blocking)
+    if result != vrep.simx_return_ok:
+        raise Exception('could not get collision state for robot collision object')
+
+    result, collision_state_4 = vrep.simxReadCollision(clientID, collision_Handle_4, vrep.simx_opmode_blocking)
+    if result != vrep.simx_return_ok:
+        raise Exception('could not get collision state for robot collision object')
+
+    result, collision_state_5 = vrep.simxReadCollision(clientID, collision_Handle_5, vrep.simx_opmode_blocking)
+    if result != vrep.simx_return_ok:
+        raise Exception('could not get collision state for robot collision object')
+
+    #result, collision_state_2 = vrep.simxReadCollision(clientID, collision_Handle_2, vrep.simx_opmode_blocking)
+    #if result != vrep.simx_return_ok:
+    #    raise Exception('could not get collision state for robot collision object')
+
+    #if collision_state_1 == False and collision_state_2 == False and collision_state_3 == False and collision_state_4 == False:
+    #    collision_state = 0
+    #else:
+    #    collision_state = 1
+
+    return collision_state_5
