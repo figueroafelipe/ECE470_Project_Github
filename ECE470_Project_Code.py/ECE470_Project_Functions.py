@@ -97,6 +97,7 @@ def inverse_kinematic(position, euler_vector):
     V_01in0 = 1
 
     t_start = time.process_time()
+    count = 0
     while linalg.norm(V_01in0) >= epsilon:
         mu = 1e-1
         (T_1in0, R_1in0, eulerAngles, p_1in0) = forward_kinematics(theta)
@@ -121,9 +122,13 @@ def inverse_kinematic(position, euler_vector):
 
         t_now = time.process_time()
 
-        if t_now-t_start > 20:
-            print('Stopping program because the input position and orientation is no reachable by the robot\n')
-            raise Exception('Goal position is not reachable')
+        if t_now-t_start > 15:
+            t_start = time.process_time()
+            theta = np.random.rand(n, 1)
+            count= count+1
+            if count > 15:
+                print('Stopping program because the input position and orientation is no reachable by the robot\n')
+                raise Exception('Goal position is not reachable')
 
     print('\nFinal angles that achieve the desired pose: ')
     print(theta, end='\n\n')
@@ -402,31 +407,31 @@ def get_user_position_and_orientation():
 
     return (position_vector, euler_angle_vector)
 
-def inCollision(clientID, robo):
+def inCollision(clientID):
     # Get "handle" to the UR3 to UR3#0 collision object
-    result, collision_Handle_1 = vrep.simxGetCollisionHandle(clientID, 'Collision1', vrep.simx_opmode_blocking)
+    result, collision_Handle_1 = vrep.simxGetCollisionHandle(clientID, 'Collision', vrep.simx_opmode_blocking)
     if result != vrep.simx_return_ok:
         raise Exception('could not get object handle for UR3 to UR3#0 collision object')
 
-    # Get "handle" to the UR3 to MicoHand#0 collision object
-    result, collision_Handle_2 = vrep.simxGetCollisionHandle(clientID, 'Collision2', vrep.simx_opmode_blocking)
+    # Get "handle" to the UR3 to sofa collision object
+    result, collision_Handle_2 = vrep.simxGetCollisionHandle(clientID, 'Collision0', vrep.simx_opmode_blocking)
     if result != vrep.simx_return_ok:
         raise Exception('could not get object handle for UR3 to MicoHand#0 collision object')
 
-    # Get "handle" to the MicoHand to UR3#0 collision object
-    result, collision_Handle_3 = vrep.simxGetCollisionHandle(clientID, 'Collision3', vrep.simx_opmode_blocking)
+    # Get "handle" to the UR3#0 to sofa collision object
+    result, collision_Handle_3 = vrep.simxGetCollisionHandle(clientID, 'Collision1', vrep.simx_opmode_blocking)
     if result != vrep.simx_return_ok:
         raise Exception('could not get object handle for MicoHand to UR3#0 collision object')
 
-    # Get "handle" to the MicoHand to MicoHand#0 collision object
-    result, collision_Handle_4 = vrep.simxGetCollisionHandle(clientID, 'Collision4', vrep.simx_opmode_blocking)
+    # Get "handle" to the UR3 to UR3 collision object
+    result, collision_Handle_4 = vrep.simxGetCollisionHandle(clientID, 'Collision2', vrep.simx_opmode_blocking)
     if result != vrep.simx_return_ok:
         raise Exception('could not get object handle for MicoHand to MicoHand#0 collision object')
 
     # Get "handle" to the MicoHand to MicoHand#0 collision object
-    result, collision_Handle_5 = vrep.simxGetCollisionHandle(clientID, 'Collision6', vrep.simx_opmode_blocking)
-    if result != vrep.simx_return_ok:
-        raise Exception('could not get object handle for collection1 collision object')
+    #result, collision_Handle_5 = vrep.simxGetCollisionHandle(clientID, 'Collision6', vrep.simx_opmode_blocking)
+    #if result != vrep.simx_return_ok:
+    #    raise Exception('could not get object handle for collection1 collision object')
 
     #if robo == 0:
     #    #Get "handle" to the UR3 to chair collision object
@@ -457,9 +462,9 @@ def inCollision(clientID, robo):
     if result != vrep.simx_return_ok:
         raise Exception('could not get collision state for robot collision object')
 
-    result, collision_state_5 = vrep.simxReadCollision(clientID, collision_Handle_5, vrep.simx_opmode_blocking)
-    if result != vrep.simx_return_ok:
-        raise Exception('could not get collision state for robot collision object')
+    #result, collision_state_5 = vrep.simxReadCollision(clientID, collision_Handle_5, vrep.simx_opmode_blocking)
+    #if result != vrep.simx_return_ok:
+    #    raise Exception('could not get collision state for robot collision object')
 
     #result, collision_state_2 = vrep.simxReadCollision(clientID, collision_Handle_2, vrep.simx_opmode_blocking)
     #if result != vrep.simx_return_ok:
@@ -469,5 +474,18 @@ def inCollision(clientID, robo):
     #    collision_state = 0
     #else:
     #    collision_state = 1
+    if collision_state_4 == 1:
+        print('self collision')
+    elif collision_state_4 == 0:
+        print('no self collision')
+    else:
+        print('problem')
 
-    return collision_state_5
+    if collision_state_1 == 1 or collision_state_2 == 1 or collision_state_3 == 1 or collision_state_4 == 1:
+        collision_state = 1
+        print('Path is in collision!')
+    else:
+        collision_state = 0
+        print('Path is not in collision.')
+
+    return collision_state
