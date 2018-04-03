@@ -93,6 +93,9 @@ the center of the two bounding volume with the the sum of two radii to check if 
 In the project, we choose to use the build in function simxGetCollisionHandle and function simxReadCollision to write the isCollision funtion in our code. The isCollision check 
 1. Get "handle" to the UR3 TO UR3 collision - self-collision detection<br />
 2. Get "handle" to the UR3 to chair collison -environment-collision detection<br />
+The function print the result of the collision detection of any scenarios.
+
+The user input the desired position. The robot is conduction the inverse kinematics with collision detection
 
 
 
