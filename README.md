@@ -80,6 +80,23 @@ Derive the Inverse Kinematics based on the UR3 schematic and previous calculatd 
 (4) Compare the goal pose frame with the tool frame to see if it's aligned
 (5) Due to the inital guess of the set of theta. The algorithm may not converge. Or the robot may be in the condition of self-collision. Indicate the goal pose is not reachable in the code
 
+## Demostrate Collision Detection
+## Due 04-02
+The Instruction given three suggusted method<br />
+1. Use the V-rep build in functions<br />
+2. Use the external library<br />
+3. Use the bounding volumes method<br />
+
+The bounding volumes method is to set dummies or spheres at the joints to represent the robot each part's volume. Compare the distance of
+the center of the two bounding volume with the the sum of two radii to check if the robot whether is in collition with itself or other obstacles. The impementation is easy to conduct. However, the result would not be as accurate as the first two. 
+
+In the project, we choose to use the build in function simxGetCollisionHandle and function simxReadCollision to write the isCollision funtion in our code. The isCollision check 
+1. Get "handle" to the UR3 TO UR3 collision - self-collision detection<br />
+2. Get "handle" to the UR3 to chair collison -environment-collision detection<br />
+
+
+
+
 
 ## References
 
