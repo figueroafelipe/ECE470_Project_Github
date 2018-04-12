@@ -99,4 +99,3 @@ for i in range(0,len(theta[0])):
     robo0_collision_state = myfct.inCollision(clientID)
     myfct.end_simulation(clientID)
 
-

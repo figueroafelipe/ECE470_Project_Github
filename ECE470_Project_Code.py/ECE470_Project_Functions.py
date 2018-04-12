@@ -12,19 +12,33 @@ import time
 import numpy as np
 import scipy as sp
 from scipy import linalg
+from collections import namedtuple
+
+S = np.matrix([[0, -1, -1, -1, 0, -1], [0, 0, 0, 0, 0, 0], [1, 0, 0, 0, 1, 0], [0, 0, 0, 0, 0, 0],
+                   [0, -0.152, -0.396, -0.609, 0.11, -0.692], [0, 0, 0, 0, 0, 0]])
+
+S1_skew = np.matrix([[0, -1, 0, 0], [1, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]])
+S2_skew = np.matrix([[0, 0, 0, 0], [0, 0, 1, -0.152], [0, -1, 0, 0], [0, 0, 0, 0]])
+S3_skew = np.matrix([[0, 0, 0, 0], [0, 0, 1, -0.396], [0, -1, 0, 0], [0, 0, 0, 0]])
+S4_skew = np.matrix([[0, 0, 0, 0], [0, 0, 1, -0.609], [0, -1, 0, 0], [0, 0, 0, 0]])
+S5_skew = np.matrix([[0, -1, 0, 0], [1, 0, 0, 0.11], [0, 0, 0, 0], [0, 0, 0, 0]])
+S6_skew = np.matrix([[0, 0, 0, 0], [0, 0, 1, -0.692], [0, -1, 0, 0], [0, 0, 0, 0]])
+M = np.matrix([[1, 0, 0, -0.342], [0, 1, 0, 0], [0, 0, 1, 0.692], [0, 0, 0, 1]])
+
+n = 6
 
 #Calculate the final pose of the robot given the angles (in a vector) of each joint
 def forward_kinematics (theta):
-    S = np.matrix([[0, -1, -1, -1, 0, -1], [0, 0, 0, 0, 0, 0], [1, 0, 0, 0, 1, 0], [0, 0, 0, 0, 0, 0],
-                   [0, -0.152, -0.396, -0.609, 0.11, -0.692], [0, 0, 0, 0, 0, 0]])
+    #S = np.matrix([[0, -1, -1, -1, 0, -1], [0, 0, 0, 0, 0, 0], [1, 0, 0, 0, 1, 0], [0, 0, 0, 0, 0, 0],
+    #               [0, -0.152, -0.396, -0.609, 0.11, -0.692], [0, 0, 0, 0, 0, 0]])
 
-    S1_skew = np.matrix([[0, -1, 0, 0], [1, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]])
-    S2_skew = np.matrix([[0, 0, 0, 0], [0, 0, 1, -0.152], [0, -1, 0, 0], [0, 0, 0, 0]])
-    S3_skew = np.matrix([[0, 0, 0, 0], [0, 0, 1, -0.396], [0, -1, 0, 0], [0, 0, 0, 0]])
-    S4_skew = np.matrix([[0, 0, 0, 0], [0, 0, 1, -0.609], [0, -1, 0, 0], [0, 0, 0, 0]])
-    S5_skew = np.matrix([[0, -1, 0, 0], [1, 0, 0, 0.11], [0, 0, 0, 0], [0, 0, 0, 0]])
-    S6_skew = np.matrix([[0, 0, 0, 0], [0, 0, 1, -0.692], [0, -1, 0, 0], [0, 0, 0, 0]])
-    M = np.matrix([[1, 0, 0, -0.342], [0, 1, 0, 0], [0, 0, 1, 0.692], [0, 0, 0, 1]])
+    #S1_skew = np.matrix([[0, -1, 0, 0], [1, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]])
+    #S2_skew = np.matrix([[0, 0, 0, 0], [0, 0, 1, -0.152], [0, -1, 0, 0], [0, 0, 0, 0]])
+    #S3_skew = np.matrix([[0, 0, 0, 0], [0, 0, 1, -0.396], [0, -1, 0, 0], [0, 0, 0, 0]])
+    #S4_skew = np.matrix([[0, 0, 0, 0], [0, 0, 1, -0.609], [0, -1, 0, 0], [0, 0, 0, 0]])
+    #S5_skew = np.matrix([[0, -1, 0, 0], [1, 0, 0, 0.11], [0, 0, 0, 0], [0, 0, 0, 0]])
+    #6_skew = np.matrix([[0, 0, 0, 0], [0, 0, 1, -0.692], [0, -1, 0, 0], [0, 0, 0, 0]])
+    #M = np.matrix([[1, 0, 0, -0.342], [0, 1, 0, 0], [0, 0, 1, 0.692], [0, 0, 0, 1]])
 
     a = np.dot(linalg.expm(S1_skew * theta[0,0]),linalg.expm(S2_skew * theta[1,0]))
     b = np.dot(a,linalg.expm(S3_skew * theta[2,0]))
@@ -77,18 +91,18 @@ def inverse_kinematic(position, euler_vector):
     print('\nDesired pose: ')
     print(T_2in0, end='\n\n')
 
-    S = np.matrix([[0, -1, -1, -1, 0, -1], [0, 0, 0, 0, 0, 0], [1, 0, 0, 0, 1, 0], [0, 0, 0, 0, 0, 0],
-                   [0, -0.152, -0.396, -0.609, 0.11, -0.692], [0, 0, 0, 0, 0, 0]])
+    #S = np.matrix([[0, -1, -1, -1, 0, -1], [0, 0, 0, 0, 0, 0], [1, 0, 0, 0, 1, 0], [0, 0, 0, 0, 0, 0],
+    #               [0, -0.152, -0.396, -0.609, 0.11, -0.692], [0, 0, 0, 0, 0, 0]])
 
-    S1_skew = np.matrix([[0, -1, 0, 0], [1, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]])
-    S2_skew = np.matrix([[0, 0, 0, 0], [0, 0, 1, -0.152], [0, -1, 0, 0], [0, 0, 0, 0]])
-    S3_skew = np.matrix([[0, 0, 0, 0], [0, 0, 1, -0.396], [0, -1, 0, 0], [0, 0, 0, 0]])
-    S4_skew = np.matrix([[0, 0, 0, 0], [0, 0, 1, -0.609], [0, -1, 0, 0], [0, 0, 0, 0]])
-    S5_skew = np.matrix([[0, -1, 0, 0], [1, 0, 0, 0.11], [0, 0, 0, 0], [0, 0, 0, 0]])
-    S6_skew = np.matrix([[0, 0, 0, 0], [0, 0, 1, -0.692], [0, -1, 0, 0], [0, 0, 0, 0]])
-    M = np.matrix([[1, 0, 0, -0.342], [0, 1, 0, 0], [0, 0, 1, 0.692], [0, 0, 0, 1]])
+    #S1_skew = np.matrix([[0, -1, 0, 0], [1, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]])
+    #S2_skew = np.matrix([[0, 0, 0, 0], [0, 0, 1, -0.152], [0, -1, 0, 0], [0, 0, 0, 0]])
+    #S3_skew = np.matrix([[0, 0, 0, 0], [0, 0, 1, -0.396], [0, -1, 0, 0], [0, 0, 0, 0]])
+    #S4_skew = np.matrix([[0, 0, 0, 0], [0, 0, 1, -0.609], [0, -1, 0, 0], [0, 0, 0, 0]])
+    #S5_skew = np.matrix([[0, -1, 0, 0], [1, 0, 0, 0.11], [0, 0, 0, 0], [0, 0, 0, 0]])
+    #S6_skew = np.matrix([[0, 0, 0, 0], [0, 0, 1, -0.692], [0, -1, 0, 0], [0, 0, 0, 0]])
+    #M = np.matrix([[1, 0, 0, -0.342], [0, 1, 0, 0], [0, 0, 1, 0.692], [0, 0, 0, 1]])
 
-    n = 6
+    #n = 6
 
     epsilon = 0.01
 
@@ -127,7 +141,7 @@ def inverse_kinematic(position, euler_vector):
             theta = np.random.rand(n, 1)
             count= count+1
             if count > 15:
-                print('Stopping program because the input position and orientation is no reachable by the robot\n')
+                print('Stopping program because the input position and orientation is not reachable by the robot\n')
                 raise Exception('Goal position is not reachable')
 
     print('\nFinal angles that achieve the desired pose: ')
@@ -204,6 +218,25 @@ def start_simulation():
     time.sleep(2)
 
     return clientID
+
+def pause_simulation(clientID):
+    result = vrep.simxPauseSimulation(clientID,vrep.simx_opmode_oneshot)
+    #if result != vrep.simx_return_ok:
+    #    raise Exception('could not pause simulation!')
+
+    # Wait two seconds
+    time.sleep(2)
+
+
+def restart_simulation(clientID):
+    # Start simulation
+    result = vrep.simxStartSimulation(clientID, vrep.simx_opmode_oneshot)
+    if result != vrep.simx_return_ok:
+        raise Exception('could not restart simulation!')
+
+    # Wait two seconds
+    time.sleep(2)
+
 
 def get_robot_handles (clientID, robo):
     if robo == 0:
@@ -286,15 +319,9 @@ def get_robot_handles (clientID, robo):
     else:
         raise Exception('Wrong input, could not get handles')
 
-#Moves the joint of the robot to the prescribed angle given
-def move_robot (clientID, theta, robo):
-
-    (T_1in0, R_1in0, end_eulerAngles, end_position) = forward_kinematics(theta)
-
-    robot_handles = get_robot_handles(clientID, robo)
-
+def get_reference_object_handles(clientID):
     # Get "handle" to WorldReferenceFrame
-    result, WorldReferenceFrame_handle = vrep.simxGetObjectHandle(clientID, 'T_1in0_ReferenceFrame',
+    result, WorldReferenceFrame_handle = vrep.simxGetObjectHandle(clientID, 'WorldReferenceFrame',
                                                                   vrep.simx_opmode_blocking)
     if result != vrep.simx_return_ok:
         raise Exception('could not get object handle for world reference frame')
@@ -307,53 +334,170 @@ def move_robot (clientID, theta, robo):
 
     # Get "handle" to UR3_0_ReferenceFrame
     result, UR3_0_ReferenceFrame_handle = vrep.simxGetObjectHandle(clientID, 'UR3_0_ReferenceFrame',
-                                                                        vrep.simx_opmode_blocking)
+                                                                   vrep.simx_opmode_blocking)
     if result != vrep.simx_return_ok:
         raise Exception('could not get object handle for UR3_0 reference frame')
 
     # Wait two seconds
     time.sleep(2)
 
+    ref_object_handles = np.array([WorldReferenceFrame_handle, T_1in0_ReferenceFrame_handle, UR3_0_ReferenceFrame_handle])
+    return ref_object_handles
+
+#Moves the joint of the robot to the prescribed angle given
+def move_robot (clientID, theta, robo, robot_handles,ref_object_handles):
+
+    (T_1in0, R_1in0, end_eulerAngles, end_position) = forward_kinematics(theta)
+
+    #robot_handles = get_robot_handles(clientID, robo)
+
+    # Get "handle" to WorldReferenceFrame
+    #result, WorldReferenceFrame_handle = vrep.simxGetObjectHandle(clientID, 'T_1in0_ReferenceFrame',
+    #                                                              vrep.simx_opmode_blocking)
+    #if result != vrep.simx_return_ok:
+    #    raise Exception('could not get object handle for world reference frame')
+
+    # Get "handle" to T_1in0_ReferenceFrame
+    #result, T_1in0_ReferenceFrame_handle = vrep.simxGetObjectHandle(clientID, 'T_1in0_ReferenceFrame',
+    #                                                                vrep.simx_opmode_blocking)
+    #if result != vrep.simx_return_ok:
+    #    raise Exception('could not get object handle for T_1in0 reference frame')
+
+    # Get "handle" to UR3_0_ReferenceFrame
+    #result, UR3_0_ReferenceFrame_handle = vrep.simxGetObjectHandle(clientID, 'UR3_0_ReferenceFrame',
+    #                                                                    vrep.simx_opmode_blocking)
+    #if result != vrep.simx_return_ok:
+    #    raise Exception('could not get object handle for UR3_0 reference frame')
+
+    # Wait two seconds
+    #time.sleep(2)
+
     if robo == 0:
         # Set T_1in0_ReferenceFrame position and orientation
-        vrep.simxSetObjectPosition(clientID, T_1in0_ReferenceFrame_handle, WorldReferenceFrame_handle, end_position,
+        vrep.simxSetObjectPosition(clientID, ref_object_handles[1], ref_object_handles[0], end_position,
                                    vrep.simx_opmode_oneshot)
-        vrep.simxSetObjectOrientation(clientID, T_1in0_ReferenceFrame_handle, WorldReferenceFrame_handle, end_eulerAngles,
+        vrep.simxSetObjectOrientation(clientID, ref_object_handles[1], ref_object_handles[0], end_eulerAngles,
                                       vrep.simx_opmode_oneshot)
     elif robo == 1:
         # Set T_1in0_ReferenceFrame position and orientation
-        vrep.simxSetObjectPosition(clientID, T_1in0_ReferenceFrame_handle, UR3_0_ReferenceFrame_handle, end_position,
+        vrep.simxSetObjectPosition(clientID, ref_object_handles[1], ref_object_handles[2], end_position,
                                    vrep.simx_opmode_oneshot)
-        vrep.simxSetObjectOrientation(clientID, T_1in0_ReferenceFrame_handle, UR3_0_ReferenceFrame_handle,
+        vrep.simxSetObjectOrientation(clientID, ref_object_handles[1], ref_object_handles[2],
                                       end_eulerAngles,
                                       vrep.simx_opmode_oneshot)
     else:
         raise Exception('Problem with robot number')
 
+    #vrep.simxPauseCommunication(clientID, True)
+
+    targetVelocity = 200
     # Position all the joint angles according to user input
     # Set the desired value of the first joint variable
-    vrep.simxSetJointTargetPosition(clientID, robot_handles[0], theta[0], vrep.simx_opmode_oneshot)
-    time.sleep(2)  # Wait two seconds
+    vrep.simxSetJointTargetVelocity(clientID, robot_handles[0], targetVelocity, vrep.simx_opmode_streaming)
+    vrep.simxSetJointTargetPosition(clientID, robot_handles[0], theta[0], vrep.simx_opmode_streaming)
+    #time.sleep(2)  # Wait two seconds
 
     # Set the desired value of the second joint variable
-    vrep.simxSetJointTargetPosition(clientID, robot_handles[1], theta[1], vrep.simx_opmode_oneshot)
-    time.sleep(2)  # Wait two seconds
+    vrep.simxSetJointTargetVelocity(clientID, robot_handles[1], targetVelocity, vrep.simx_opmode_streaming)
+    vrep.simxSetJointTargetPosition(clientID, robot_handles[1], theta[1], vrep.simx_opmode_streaming)
+    #time.sleep(2)  # Wait two seconds
 
     # Set the desired value of the third joint variable
-    vrep.simxSetJointTargetPosition(clientID, robot_handles[2], theta[2], vrep.simx_opmode_oneshot)
-    time.sleep(2)  # Wait two seconds
+    vrep.simxSetJointTargetVelocity(clientID, robot_handles[2], targetVelocity, vrep.simx_opmode_streaming)
+    vrep.simxSetJointTargetPosition(clientID, robot_handles[2], theta[2], vrep.simx_opmode_streaming)
+    #time.sleep(2)  # Wait two seconds
 
     # Set the desired value of the fourth joint variable
-    vrep.simxSetJointTargetPosition(clientID, robot_handles[3], theta[3], vrep.simx_opmode_oneshot)
-    time.sleep(2)  # Wait two seconds
+    vrep.simxSetJointTargetVelocity(clientID, robot_handles[3], targetVelocity, vrep.simx_opmode_streaming)
+    vrep.simxSetJointTargetPosition(clientID, robot_handles[3], theta[3], vrep.simx_opmode_streaming)
+    #time.sleep(2)  # Wait two seconds
 
     # Set the desired value of the fifth joint variable
-    vrep.simxSetJointTargetPosition(clientID, robot_handles[4], theta[4], vrep.simx_opmode_oneshot)
-    time.sleep(2)  # Wait two seconds
+    vrep.simxSetJointTargetVelocity(clientID, robot_handles[4], targetVelocity, vrep.simx_opmode_streaming)
+    vrep.simxSetJointTargetPosition(clientID, robot_handles[4], theta[4], vrep.simx_opmode_streaming)
+    #time.sleep(2)  # Wait two seconds
 
     # Set the desired value of the sixth joint variable
-    vrep.simxSetJointTargetPosition(clientID, robot_handles[5], theta[5], vrep.simx_opmode_oneshot)
+    vrep.simxSetJointTargetVelocity(clientID, robot_handles[5], targetVelocity, vrep.simx_opmode_streaming)
+    vrep.simxSetJointTargetPosition(clientID, robot_handles[5], theta[5], vrep.simx_opmode_streaming)
     time.sleep(2)  # Wait two seconds
+
+    #vrep.simxPauseCommunication(clientID, False)
+
+
+#Moves the joint of the robot to the prescribed angle given without simulation running
+def move_robot_without_simulation(clientID, theta, robo, robot_handles,ref_object_handles):
+
+    (T_1in0, R_1in0, end_eulerAngles, end_position) = forward_kinematics(theta)
+
+    #robot_handles = get_robot_handles(clientID, robo)
+
+    # Get "handle" to WorldReferenceFrame
+    #result, WorldReferenceFrame_handle = vrep.simxGetObjectHandle(clientID, 'T_1in0_ReferenceFrame',
+    #                                                              vrep.simx_opmode_blocking)
+    #if result != vrep.simx_return_ok:
+    #    raise Exception('could not get object handle for world reference frame')
+
+    # Get "handle" to T_1in0_ReferenceFrame
+    #result, T_1in0_ReferenceFrame_handle = vrep.simxGetObjectHandle(clientID, 'T_1in0_ReferenceFrame',
+    #                                                                vrep.simx_opmode_blocking)
+    #if result != vrep.simx_return_ok:
+    #    raise Exception('could not get object handle for T_1in0 reference frame')
+
+    # Get "handle" to UR3_0_ReferenceFrame
+    #result, UR3_0_ReferenceFrame_handle = vrep.simxGetObjectHandle(clientID, 'UR3_0_ReferenceFrame',
+    #                                                                    vrep.simx_opmode_blocking)
+    #if result != vrep.simx_return_ok:
+    #    raise Exception('could not get object handle for UR3_0 reference frame')
+
+    # Wait two seconds
+    #time.sleep(2)
+
+    if robo == 0:
+        # Set T_1in0_ReferenceFrame position and orientation
+        vrep.simxSetObjectPosition(clientID, ref_object_handles[1], ref_object_handles[0], end_position,
+                                   vrep.simx_opmode_oneshot)
+        vrep.simxSetObjectOrientation(clientID, ref_object_handles[1], ref_object_handles[0], end_eulerAngles,
+                                      vrep.simx_opmode_oneshot)
+    elif robo == 1:
+        # Set T_1in0_ReferenceFrame position and orientation
+        vrep.simxSetObjectPosition(clientID, ref_object_handles[1], ref_object_handles[2], end_position,
+                                   vrep.simx_opmode_oneshot)
+        vrep.simxSetObjectOrientation(clientID, ref_object_handles[1], ref_object_handles[2],
+                                      end_eulerAngles,
+                                      vrep.simx_opmode_oneshot)
+    else:
+        raise Exception('Problem with robot number')
+
+    vrep.simxPauseCommunication(clientID,True)
+
+    # Position all the joint angles according to user input
+    # Set the desired value of the first joint variable
+    vrep.simxSetJointPosition(clientID, robot_handles[0], theta[0], vrep.simx_opmode_streaming)
+    #time.sleep(2)  # Wait two seconds
+
+    # Set the desired value of the second joint variable
+    vrep.simxSetJointPosition(clientID, robot_handles[1], theta[1], vrep.simx_opmode_streaming)
+    #time.sleep(2)  # Wait two seconds
+
+    # Set the desired value of the third joint variable
+    vrep.simxSetJointPosition(clientID, robot_handles[2], theta[2], vrep.simx_opmode_streaming)
+    #time.sleep(2)  # Wait two seconds
+
+    # Set the desired value of the fourth joint variable
+    vrep.simxSetJointPosition(clientID, robot_handles[3], theta[3], vrep.simx_opmode_streaming)
+    #time.sleep(2)  # Wait two seconds
+
+    # Set the desired value of the fifth joint variable
+    vrep.simxSetJointPosition(clientID, robot_handles[4], theta[4], vrep.simx_opmode_streaming)
+    #time.sleep(2)  # Wait two seconds
+
+    # Set the desired value of the sixth joint variable
+    vrep.simxSetJointPosition(clientID, robot_handles[5], theta[5], vrep.simx_opmode_streaming)
+    time.sleep(2)  # Wait two seconds
+
+    vrep.simxPauseCommunication(clientID, False)
+
 
 #Ends the V-Rep simulation
 def end_simulation (clientID):
@@ -362,7 +506,8 @@ def end_simulation (clientID):
     # Stop simulation
     vrep.simxStopSimulation(clientID, vrep.simx_opmode_oneshot)
 
-    # Before closing the connection to V-REP, make sure that the last command sent out had time to arrive. You can guarantee this with (for example):
+    # Before closing the connection to V-REP, make sure that the last command sent out had time to arrive.
+    # You can guarantee this with (for example):
     vrep.simxGetPingTime(clientID)
 
     # Close the connection to V-REP
@@ -407,7 +552,7 @@ def get_user_position_and_orientation():
 
     return (position_vector, euler_angle_vector)
 
-def inCollision(clientID):
+def get_collision_handles(clientID):
     # Get "handle" to the UR3 to UR3#0 collision object
     result, collision_Handle_1 = vrep.simxGetCollisionHandle(clientID, 'Collision', vrep.simx_opmode_blocking)
     if result != vrep.simx_return_ok:
@@ -428,6 +573,30 @@ def inCollision(clientID):
     if result != vrep.simx_return_ok:
         raise Exception('could not get object handle for MicoHand to MicoHand#0 collision object')
 
+    collision_handles = np.array([collision_Handle_1, collision_Handle_2, collision_Handle_3, collision_Handle_4])
+    return collision_handles
+
+def inCollision(clientID, collision_handles):
+    # Get "handle" to the UR3 to UR3#0 collision object
+    #result, collision_Handle_1 = vrep.simxGetCollisionHandle(clientID, 'Collision', vrep.simx_opmode_blocking)
+    #if result != vrep.simx_return_ok:
+    #    raise Exception('could not get object handle for UR3 to UR3#0 collision object')
+
+    # Get "handle" to the UR3 to sofa collision object
+    #result, collision_Handle_2 = vrep.simxGetCollisionHandle(clientID, 'Collision0', vrep.simx_opmode_blocking)
+    #if result != vrep.simx_return_ok:
+    #    raise Exception('could not get object handle for UR3 to MicoHand#0 collision object')
+
+    # Get "handle" to the UR3#0 to sofa collision object
+    #result, collision_Handle_3 = vrep.simxGetCollisionHandle(clientID, 'Collision1', vrep.simx_opmode_blocking)
+    #if result != vrep.simx_return_ok:
+    #    raise Exception('could not get object handle for MicoHand to UR3#0 collision object')
+
+    # Get "handle" to the UR3 to UR3 collision object
+    #result, collision_Handle_4 = vrep.simxGetCollisionHandle(clientID, 'Collision2', vrep.simx_opmode_blocking)
+    #if result != vrep.simx_return_ok:
+    #    raise Exception('could not get object handle for MicoHand to MicoHand#0 collision object')
+
     # Get "handle" to the MicoHand to MicoHand#0 collision object
     #result, collision_Handle_5 = vrep.simxGetCollisionHandle(clientID, 'Collision6', vrep.simx_opmode_blocking)
     #if result != vrep.simx_return_ok:
@@ -446,19 +615,20 @@ def inCollision(clientID):
     #else:
     #    raise Exception('Problem with collision object handles')
 
-    result, collision_state_1 = vrep.simxReadCollision(clientID, collision_Handle_1, vrep.simx_opmode_blocking)
+
+    result, collision_state_1 = vrep.simxReadCollision(clientID, collision_handles[0], vrep.simx_opmode_blocking)
     if result != vrep.simx_return_ok:
         raise Exception('could not get collision state for robot collision object')
 
-    result, collision_state_2 = vrep.simxReadCollision(clientID, collision_Handle_2, vrep.simx_opmode_blocking)
+    result, collision_state_2 = vrep.simxReadCollision(clientID, collision_handles[1], vrep.simx_opmode_blocking)
     if result != vrep.simx_return_ok:
         raise Exception('could not get collision state for robot collision object')
 
-    result, collision_state_3 = vrep.simxReadCollision(clientID, collision_Handle_3, vrep.simx_opmode_blocking)
+    result, collision_state_3 = vrep.simxReadCollision(clientID, collision_handles[2], vrep.simx_opmode_blocking)
     if result != vrep.simx_return_ok:
         raise Exception('could not get collision state for robot collision object')
 
-    result, collision_state_4 = vrep.simxReadCollision(clientID, collision_Handle_4, vrep.simx_opmode_blocking)
+    result, collision_state_4 = vrep.simxReadCollision(clientID, collision_handles[3], vrep.simx_opmode_blocking)
     if result != vrep.simx_return_ok:
         raise Exception('could not get collision state for robot collision object')
 
@@ -474,18 +644,286 @@ def inCollision(clientID):
     #    collision_state = 0
     #else:
     #    collision_state = 1
+
+
+
+
     if collision_state_4 == 1:
         print('self collision')
     elif collision_state_4 == 0:
-        print('no self collision')
+        pass #print('no self collision')
     else:
         print('problem')
 
     if collision_state_1 == 1 or collision_state_2 == 1 or collision_state_3 == 1 or collision_state_4 == 1:
-        collision_state = 1
+        collision_state = True
         print('Path is in collision!')
     else:
-        collision_state = 0
-        print('Path is not in collision.')
+        collision_state = False
+        #print('Path is not in collision.')
 
     return collision_state
+
+
+#I don't think we need this function. Will delete after path planner function works
+def sphereLocation(theta, p_initial):
+    p=np.zeros((3,n+2))
+    p[:,1] = p_initial[:,1]
+    p[:,2] = p_initial[:,2]
+
+    e_o = 1
+
+    for i in range(0,S.shape[1]):
+        e_n = np.dot(e_o, linalg.expm(np.dot(skew4(S[:, i]),theta[i])))
+        padded = np.dot(e_n, np.vstack(( p_initial[:, i + 2] , 1)))
+        p[:, i + 2] = padded[1:3, 1]
+        e_o = e_n
+
+    return p
+
+
+#need to add funcitonality for checking collision for second robot. (add a robo variable and adjust for collisions)
+def robot_in_collision(clientID,theta,robot_handles,collision_handles,ref_object_handles):
+    #restart_simulation(clientID)
+    #time.sleep(2)  # Wait two seconds
+
+    move_robot(clientID,theta,0, robot_handles,ref_object_handles)
+    #move_robot_without_simulation(clientID,theta,0, robot_handles,ref_object_handles)
+    time.sleep(2)  # Wait two seconds
+    collision_state=inCollision(clientID,collision_handles)
+    #time.sleep(2)  # Wait two seconds
+    #pause_simulation(clientID)
+    #time.sleep(2)  # Wait two seconds
+    #collision_state = True
+    return collision_state
+
+
+def linepath_in_collision(clientID,theta_a,theta_b,robot_handles,collision_handles,ref_object_handles):
+    print('Commencing linepath collission check')
+    #print(theta_a)
+    #print('theta_b is:')
+    #print(theta_b)
+    collision_state = False
+    epsilon = 9e-1
+
+    if robot_in_collision(clientID,theta_a,robot_handles,collision_handles,ref_object_handles) or robot_in_collision(clientID,theta_b,robot_handles,collision_handles,ref_object_handles):
+        collision_state = True
+
+    col_number_of_theta = theta_a.shape[1]
+    #s_vector = np.zeros(1, col_number_of_theta)
+
+    i=0
+    while i < col_number_of_theta and not(collision_state):
+        d = np.linalg.norm(theta_a[:, i]-theta_b[:, i])
+        #print(d)
+        n_step = 1 + int(math.ceil(d/epsilon))
+        #print(n_step)
+        s = np.linspace(0, 1, n_step)
+        #print(s)
+
+        j = 0
+        while j < n_step and not(collision_state):
+            #print(j)
+            theta = (1-s[j])*theta_a[:,i]+s[j]*theta_b[:,i]
+            #theta = np.dot((1 - s[j]), theta_a[:, i])+np.dot(s[j], theta_b[:, i])
+            theta.shape = (6,1)
+            #print(theta)
+            collision = False
+            if robot_in_collision(clientID, theta,robot_handles,collision_handles,ref_object_handles):
+                collision_state = True
+            j = j + 1
+        i = i + 1
+
+    return collision_state
+
+
+def random_theta():
+    theta = np.zeros((n,1))
+    theta[0] = np.random.rand()*(2*np.pi)
+    theta[1] = (np.random.rand()*1.2 - 1.2) + np.random.rand() * (1.2)
+    theta[2] = (np.random.rand() * 2.6 - 2.6) + np.random.rand() * (2.6)
+    theta[3] = np.random.rand() * (2 * np.pi)
+    theta[4] = np.random.rand() * (2 * np.pi)
+    theta[5] = np.random.rand() * (2 * np.pi)
+    return theta
+
+
+def path_planner(clientID,theta_start, theta_goal,robot_handles,collision_handles,ref_object_handles):
+    node_start = namedtuple('node_start', ['theta', 'parent' ])
+    node_end = namedtuple('node_end', ['theta', 'parent'])
+    node_n = namedtuple('node_n', ['theta', 'parent'])
+    #joint_number = theta_start.shape[0]
+
+    node_start.theta = theta_start
+    node_start.parent = 0
+
+    node_end.theta = theta_goal
+    node_end.parent = 0
+
+    start_tree = [node_start]
+    #print(start_tree)
+    end_tree = [node_end]
+    #print(end_tree)
+    start_answer = []
+    end_answer = []
+    complete_answer = []
+    complete_answer.append(node_start.theta)
+
+    found = False
+    add_to_start_tree_flag = False
+    add_to_end_tree_flag = False
+    i = 0
+    while i<300 and not(found):
+        #theta = np.random.rand(n, 1)
+        theta = random_theta()
+        print('New random theta:')
+        #print(theta)
+        #move robot to theta , or maybe put it in function robot_in_collision
+        #p = sphereLocation(theta, p_robot)
+        #collision_state = linepath_in_collision(clientID)
+
+        while robot_in_collision(clientID,theta,robot_handles,collision_handles,ref_object_handles):
+            #theta = np.random.rand(n, 1)
+            print('New random theta:')
+            theta = random_theta()
+            #print(theta)
+            #p = sphereLocation(theta, p_robot)
+            #move robot to theta, or maybe put it in function robot_in_collision
+            #collision_state = linepath_in_collision(clientID)
+
+        #Start Tree Check
+        print('Commencing start_tree check')
+        distance_smallest = np.linalg.norm(theta - start_tree[0].theta)
+        shortest_distance_parent_index = 0
+        #print(shortest_distance_parent_index)
+        for j in range(1,len(start_tree)):
+            #print(j)
+            distance_new = np.linalg.norm(theta - start_tree[j].theta)
+            if distance_new < distance_smallest:
+                distance_smallest = distance_new
+                shortest_distance_parent_index = j
+
+        #print(start_tree[shortest_distance_parent_index].theta)
+        if not linepath_in_collision(clientID,theta, np.array(start_tree[shortest_distance_parent_index].theta),robot_handles,collision_handles,ref_object_handles):
+            add_to_start_tree_flag = True
+
+        if add_to_start_tree_flag:
+            node_n.theta = theta
+            node_n.parent = shortest_distance_parent_index
+            start_tree.append(node_n)
+
+        # End Tree Check
+        print('Commencing end_tree check')
+        distance_smallest = np.linalg.norm(theta - end_tree[0].theta)
+        shortest_distance_parent_index = 0
+        for k in range(1, len(end_tree)):
+            distance_new = np.linalg.norm(theta - end_tree[k].theta)
+            if distance_new < distance_smallest:
+                distance_smallest = distance_new
+                shortest_distance_parent_index = k
+
+        if not linepath_in_collision(clientID, theta, np.array(end_tree[shortest_distance_parent_index].theta),robot_handles,collision_handles,ref_object_handles):
+            add_to_end_tree_flag = True
+
+        if add_to_end_tree_flag:
+            node_n.theta = theta
+            node_n.parent = shortest_distance_parent_index
+            end_tree.append(node_n)
+
+
+        #Checking if theta in both start and end trees
+        print('Checking theta in both trees')
+        l = 0
+        #print('length of start tree:')
+        #print(len(start_tree))
+        #print('length of end tree:')
+        #print(len(end_tree))
+        while l <len(start_tree) and not(found):
+            #print(l)
+            m = 0
+            while m < len(end_tree) and not(found):
+                #print(m)
+                #print('start theta:')
+                #print(np.array(start_tree[l].theta))
+                #print('end theta')
+                #print(np.array(end_tree[m].theta))
+
+                #if np.linalg.norm(np.array(start_tree[l].theta) - theta) < 0.001 and np.linalg.norm(np.array(end_tree[m].theta) -theta) < 0.001:
+                if np.array_equal(np.array(start_tree[l].theta), theta) and np.array_equal(np.array(end_tree[m].theta),theta):
+                    print('found a path!')
+                    #print(found)
+                    found = True
+                    #print(found)
+                    start_tree_connection_index = l
+                    end_tree_connection_index = m
+                m=m+1
+            l=l+1
+
+        if found:
+            #trace back start tree
+            start_answer_index = 0
+            start_answer.append(start_tree[start_tree_connection_index].theta)
+            start_next_parent = start_tree[start_tree_connection_index].parent
+            start_answer_index = start_answer_index + 1
+            while start_next_parent != 0:
+                start_answer.append(start_tree[start_next_parent].theta)
+                start_next_parent = start_tree[start_next_parent].parent
+                start_answer_index = start_answer_index + 1
+
+            start_answer.reverse()
+
+            # trace back end tree
+            end_answer_index = 0
+            end_answer.append(start_tree[end_tree_connection_index].theta)
+            end_next_parent = start_tree[end_tree_connection_index].parent
+            end_answer_index = end_answer_index + 1
+            while end_next_parent != 0:
+                end_answer.append(end_tree[start_next_parent].theta)
+                end_next_parent = end_tree[start_next_parent].parent
+                end_answer_index = end_answer_index + 1
+
+            #Combine start and end answer
+            complete_answer.append(start_answer)
+            complete_answer.append(end_answer)
+            complete_answer.append(node_end.theta)
+        i = i + 1
+        #print(start_tree)
+        #print(end_tree)
+
+    #print('exited the big loop!!!!')
+    #print('The complete path (list) is:')
+    #print(complete_answer)
+
+    intermediate = complete_answer[0]
+    #print('intermediate')
+    #print(intermediate)
+    answer_array = intermediate
+    #print('answer_array')
+    #print(answer_array)
+    for i in range(1,len(complete_answer)-1):
+        intermediate2 = complete_answer[i]
+        #print('intermediate2')
+        #print(intermediate2)
+
+        intermediate = intermediate2[0]
+        #print('intermediate')
+        #print(intermediate)
+
+        answer_array = np.hstack((answer_array,intermediate))
+        #print('answer_array')
+        #print(answer_array)
+        #answer_array[:,i] = complete_answer[i]
+    intermediate = complete_answer[-1]
+    #print('intermediate')
+    #print(intermediate)
+    answer_array = np.hstack((answer_array,intermediate))
+    #print('answer_array')
+    #print(answer_array)
+
+    if found:
+        print('The complete path (array) is:')
+        print(answer_array)
+    else:
+        print('Unable to find path')
+
+    return answer_array
