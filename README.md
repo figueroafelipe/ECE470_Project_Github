@@ -97,9 +97,20 @@ The function print the result of the collision detection of any scenarios.
 
 The user input the desired position. The robot is conduction the inverse kinematics with collision detection
 
+## Demostrate Motion Planning
+## Due 04-11
+User input the start configuration and goal configuration. Use the V-rep build in function to detect the obstacles from the previous project and return a collision free path. If the free path could not be found, return failure
 
+Write the move_robot_without_simulation function to moves the joint of the robot to the prescirbed angle given without simulation running to detect the locations of the obstacles
 
+Path Plannar Algorithm
+1. Initialize a star tree and a end tree
+2. Find a random set of theta as presecribed set of joints angle check whether the robot is in the free space. 
+3. Caluculte the distance bewteen the current node with the last node of start tree and the end tree. Find the smallest distance. If the smallest distance is between the star tree. Call the linepath_in_collision function to check whether there is a collision in the line path between current set and the start tree node. If its collision free, add the the current node to the start tree
+4. If the node of end tree has the smallest distance, similar step as step 3.
+5. Until the start tree connects to the end tree. Track back the collision free path. If the free path can not be found, return failure.
 
+Simulate the robot with the collision free path
 
 ## References
 
