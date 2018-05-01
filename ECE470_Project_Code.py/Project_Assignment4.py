@@ -20,12 +20,16 @@ import ECE470_Project_Functions as myfct
 
 (position_vector, euler_angle_vector) = myfct.get_user_position_and_orientation()
 
-(theta) = myfct.inverse_kinematic(position_vector, euler_angle_vector)
+(theta) = myfct.inverse_kinematic(position_vector, euler_angle_vector,0)
 
 clientID = myfct.start_simulation()
+robot0_handles = myfct.get_robot_handles(clientID, 0)
+robot1_handles = myfct.get_robot_handles(clientID, 1)
+#collision_handles = myfct.get_collision_handles(clientID)
+ref_handles = myfct.get_reference_object_handles(clientID)
 
-myfct.move_robot(clientID, theta, 0)
+myfct.move_robot(clientID, theta, 0,robot0_handles,ref_handles)
 
-myfct.move_robot(clientID, theta, 1)
+myfct.move_robot(clientID, theta, 1,robot1_handles,ref_handles)
 
 myfct.end_simulation(clientID)

@@ -14,31 +14,61 @@ import scipy as sp
 from scipy import linalg
 from collections import namedtuple
 
-S = np.matrix([[0, -1, -1, -1, 0, -1], [0, 0, 0, 0, 0, 0], [1, 0, 0, 0, 1, 0], [0, 0, 0, 0, 0, 0],
+#First Robot Parameters
+S_robot0 = np.matrix([[0, -1, -1, -1, 0, -1], [0, 0, 0, 0, 0, 0], [1, 0, 0, 0, 1, 0], [0, 0, 0, 0, 0, 0],
                    [0, -0.152, -0.396, -0.609, 0.11, -0.692], [0, 0, 0, 0, 0, 0]])
+S1_skew_robot0 = np.matrix([[0, -1, 0, 0], [1, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]])
+S2_skew_robot0 = np.matrix([[0, 0, 0, 0], [0, 0, 1, -0.152], [0, -1, 0, 0], [0, 0, 0, 0]])
+S3_skew_robot0 = np.matrix([[0, 0, 0, 0], [0, 0, 1, -0.396], [0, -1, 0, 0], [0, 0, 0, 0]])
+S4_skew_robot0 = np.matrix([[0, 0, 0, 0], [0, 0, 1, -0.609], [0, -1, 0, 0], [0, 0, 0, 0]])
+S5_skew_robot0 = np.matrix([[0, -1, 0, 0], [1, 0, 0, 0.11], [0, 0, 0, 0], [0, 0, 0, 0]])
+S6_skew_robot0 = np.matrix([[0, 0, 0, 0], [0, 0, 1, -0.692], [0, -1, 0, 0], [0, 0, 0, 0]])
 
-S1_skew = np.matrix([[0, -1, 0, 0], [1, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]])
-S2_skew = np.matrix([[0, 0, 0, 0], [0, 0, 1, -0.152], [0, -1, 0, 0], [0, 0, 0, 0]])
-S3_skew = np.matrix([[0, 0, 0, 0], [0, 0, 1, -0.396], [0, -1, 0, 0], [0, 0, 0, 0]])
-S4_skew = np.matrix([[0, 0, 0, 0], [0, 0, 1, -0.609], [0, -1, 0, 0], [0, 0, 0, 0]])
-S5_skew = np.matrix([[0, -1, 0, 0], [1, 0, 0, 0.11], [0, 0, 0, 0], [0, 0, 0, 0]])
-S6_skew = np.matrix([[0, 0, 0, 0], [0, 0, 1, -0.692], [0, -1, 0, 0], [0, 0, 0, 0]])
-M = np.matrix([[1, 0, 0, -0.342], [0, 1, 0, 0], [0, 0, 1, 0.692], [0, 0, 0, 1]])
+#M_robot0 = np.matrix([[1, 0, 0, -0.2622], [0, 1, 0, 0], [0, 0, 1, 0.692], [0, 0, 0, 1]])
+#M_robot0 = np.matrix([[1, 0, 0, -0.2572], [0, 1, 0, 0], [0, 0, 1, 0.692], [0, 0, 0, 1]])
+#M_robot0 = np.matrix([[1, 0, 0, -0.2555], [0, 1, 0, 0], [0, 0, 1, 0.692], [0, 0, 0, 1]])
+M_robot0 = np.matrix([[1, 0, 0, -0.2562], [0, 1, 0, 0], [0, 0, 1, 0.692], [0, 0, 0, 1]])
+
+#Second Robot Parameters
+S_robot1 = np.matrix([[0, 1, 1, 1, 0, 1], [0, 0, 0, 0, 0, 0], [1, 0, 0, 0, 1, 0], [0, 0, 0, 0, 0, 0],
+                   [0.625, 0.152, 0.396, 0.609, 0.515, 0.692], [0, 0, 0, 0, 0, 0]])
+S1_skew_robot1 = np.matrix([[0, -1, 0, 0], [1, 0, 0, 0.625], [0, 0, 0, 0], [0, 0, 0, 0]])
+S2_skew_robot1 = np.matrix([[0, 0, 0, 0], [0, 0, -1, 0.152], [0, 1, 0, 0], [0, 0, 0, 0]])
+S3_skew_robot1 = np.matrix([[0, 0, 0, 0], [0, 0, -1, 0.396], [0, 1, 0, 0], [0, 0, 0, 0]])
+S4_skew_robot1 = np.matrix([[0, 0, 0, 0], [0, 0, -1, 0.609], [0, 1, 0, 0], [0, 0, 0, 0]])
+S5_skew_robot1 = np.matrix([[0, -1, 0, 0], [1, 0, 0, 0.515], [0, 0, 0, 0], [0, 0, 0, 0]])
+S6_skew_robot1 = np.matrix([[0, 0, 0, 0], [0, 0, -1, 0.692], [0, 1, 0, 0], [0, 0, 0, 0]])
+
+#M_robot1 = np.matrix([[1, 0, 0, -0.3622], [0, -1, 0, 0], [0, 0, 1, 0.692], [0, 0, 0, 1]])
+M_robot1 = np.matrix([[1, 0, 0, -0.8755], [0, -1, 0, 0], [0, 0, 1, 0.692], [0, 0, 0, 1]])
+#M_robot1 = np.matrix([[1, 0, 0, -0.3672], [0, -1, 0, 0], [0, 0, 1, 0.692], [0, 0, 0, 1]])
+
 
 n = 6
 
 #Calculate the final pose of the robot given the angles (in a vector) of each joint
-def forward_kinematics (theta):
-    #S = np.matrix([[0, -1, -1, -1, 0, -1], [0, 0, 0, 0, 0, 0], [1, 0, 0, 0, 1, 0], [0, 0, 0, 0, 0, 0],
-    #               [0, -0.152, -0.396, -0.609, 0.11, -0.692], [0, 0, 0, 0, 0, 0]])
+def forward_kinematics (theta,robo):
 
-    #S1_skew = np.matrix([[0, -1, 0, 0], [1, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]])
-    #S2_skew = np.matrix([[0, 0, 0, 0], [0, 0, 1, -0.152], [0, -1, 0, 0], [0, 0, 0, 0]])
-    #S3_skew = np.matrix([[0, 0, 0, 0], [0, 0, 1, -0.396], [0, -1, 0, 0], [0, 0, 0, 0]])
-    #S4_skew = np.matrix([[0, 0, 0, 0], [0, 0, 1, -0.609], [0, -1, 0, 0], [0, 0, 0, 0]])
-    #S5_skew = np.matrix([[0, -1, 0, 0], [1, 0, 0, 0.11], [0, 0, 0, 0], [0, 0, 0, 0]])
-    #6_skew = np.matrix([[0, 0, 0, 0], [0, 0, 1, -0.692], [0, -1, 0, 0], [0, 0, 0, 0]])
-    #M = np.matrix([[1, 0, 0, -0.342], [0, 1, 0, 0], [0, 0, 1, 0.692], [0, 0, 0, 1]])
+    if robo == 0:
+        S = S_robot0
+        S1_skew = S1_skew_robot0
+        S2_skew = S2_skew_robot0
+        S3_skew = S3_skew_robot0
+        S4_skew = S4_skew_robot0
+        S5_skew = S5_skew_robot0
+        S6_skew = S6_skew_robot0
+        M = M_robot0
+    elif robo == 1:
+        S = S_robot1
+        S1_skew = S1_skew_robot0
+        S2_skew = S2_skew_robot0
+        S3_skew = S3_skew_robot0
+        S4_skew = S4_skew_robot0
+        S5_skew = S5_skew_robot0
+        S6_skew = S6_skew_robot0
+        M = M_robot0
+    else:
+        raise Exception('Wrong robot input!')
 
     a = np.dot(linalg.expm(S1_skew * theta[0,0]),linalg.expm(S2_skew * theta[1,0]))
     b = np.dot(a,linalg.expm(S3_skew * theta[2,0]))
@@ -48,6 +78,7 @@ def forward_kinematics (theta):
     T_1in0 = np.dot(e,M)
 
     R_1in0 = np.array(T_1in0[0:3, 0:3])
+    #print(R_1in0)
     eulerAngles = rotationMatrixToEulerAngles(R_1in0)
     p_1in0 = np.array(T_1in0[0:3, 3])
 
@@ -69,6 +100,49 @@ def skew4(V):
 
     return V_skew
 
+def get_object_T(clientID,objHandle, worldHandle ):
+    #print(objHandle)
+    #print(worldHandle)
+    result, euler = vrep.simxGetObjectOrientation(clientID,objHandle,worldHandle, vrep.simx_opmode_streaming)
+    #if result != vrep.simx_return_ok:
+    #    raise Exception('could not get euler angles for Object to pick up')
+
+    result, position = vrep.simxGetObjectPosition(clientID,objHandle,worldHandle, vrep.simx_opmode_blocking)
+    #print(position)
+    #position = np.array([-0.3,0.2,0.05])
+    #print(position)
+    #if result != vrep.simx_return_ok:
+    #    raise Exception('could not get position for Object to pick up')
+
+    #position.shape = (3,1)
+    R = euler_angles_to_rotation_matrix(euler)
+    T = np.matrix([[R[0, 0], R[0, 1], R[0, 2], position[0]], [R[1, 0], R[1, 1], R[1, 2], position[1]],
+                        [R[2, 0], R[2, 1], R[2, 2], position[2]], [0, 0, 0, 1]])
+
+    #T = toPose(R,position)
+    return (T, euler)
+
+def get_robo_T_from_obj_T(obj_T):
+    L = 0.1
+    robo_0_T_in_obj = np.array([[0,0,-1,0], [0,1,0,0], [1,0,0,L/2],[0,0,0,1]])
+    robo_1_T_in_obj = np.array([[0, 0, -1, 0], [0, -1, 0, 0], [-1, 0, 0, -L/2], [0, 0, 0, 1]])
+    robo_0_T = np.matrix(obj_T.dot(robo_0_T_in_obj))
+    robot_1_T = np.matrix(obj_T.dot(robo_1_T_in_obj))
+
+    return (robo_0_T,robot_1_T)
+
+
+def toPose(rot, pos):
+    """
+    Returns a 4x4 HCT matrix given by the 3x3 rotation matrix and 3x1 postion vector
+    :param rot: A 3x3 Rotation Matrix
+    :param pos: A 3x1 Position Vector
+    :returns: A 4x4 HTC matrix as a numpy array
+    """
+    return np.block([[ rot, pos  ],
+                     [ [0,0,0,1] ]])
+
+
 #Calculates the adjoint of a matrix: adj = [[R, 0], [p_skew*R,R]]
 def Adj (T):
     R = T[0:3, 0:3]
@@ -82,7 +156,26 @@ def Adj (T):
     return T_adj
 
 #Calculate the joint angles of the robot necessary to achieve a given pose. If it is not achievable then the function throws out an exception
-def inverse_kinematic(position, euler_vector):
+def inverse_kinematic(position, euler_vector, robo):
+
+    if robo == 0:
+        S = S_robot0
+        S1_skew = S1_skew_robot0
+        S2_skew = S2_skew_robot0
+        S3_skew = S3_skew_robot0
+        S4_skew = S4_skew_robot0
+        S5_skew = S5_skew_robot0
+        S6_skew = S6_skew_robot0
+        M = M_robot0
+    elif robo == 1:
+        S = S_robot1
+        S1_skew = S1_skew_robot0
+        S2_skew = S2_skew_robot0
+        S3_skew = S3_skew_robot0
+        S4_skew = S4_skew_robot0
+        S5_skew = S5_skew_robot0
+        S6_skew = S6_skew_robot0
+        M = M_robot0
 
     R = euler_angles_to_rotation_matrix(euler_vector)
 
@@ -90,19 +183,6 @@ def inverse_kinematic(position, euler_vector):
 
     print('\nDesired pose: ')
     print(T_2in0, end='\n\n')
-
-    #S = np.matrix([[0, -1, -1, -1, 0, -1], [0, 0, 0, 0, 0, 0], [1, 0, 0, 0, 1, 0], [0, 0, 0, 0, 0, 0],
-    #               [0, -0.152, -0.396, -0.609, 0.11, -0.692], [0, 0, 0, 0, 0, 0]])
-
-    #S1_skew = np.matrix([[0, -1, 0, 0], [1, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]])
-    #S2_skew = np.matrix([[0, 0, 0, 0], [0, 0, 1, -0.152], [0, -1, 0, 0], [0, 0, 0, 0]])
-    #S3_skew = np.matrix([[0, 0, 0, 0], [0, 0, 1, -0.396], [0, -1, 0, 0], [0, 0, 0, 0]])
-    #S4_skew = np.matrix([[0, 0, 0, 0], [0, 0, 1, -0.609], [0, -1, 0, 0], [0, 0, 0, 0]])
-    #S5_skew = np.matrix([[0, -1, 0, 0], [1, 0, 0, 0.11], [0, 0, 0, 0], [0, 0, 0, 0]])
-    #S6_skew = np.matrix([[0, 0, 0, 0], [0, 0, 1, -0.692], [0, -1, 0, 0], [0, 0, 0, 0]])
-    #M = np.matrix([[1, 0, 0, -0.342], [0, 1, 0, 0], [0, 0, 1, 0.692], [0, 0, 0, 1]])
-
-    #n = 6
 
     epsilon = 0.01
 
@@ -114,7 +194,7 @@ def inverse_kinematic(position, euler_vector):
     count = 0
     while linalg.norm(V_01in0) >= epsilon:
         mu = 1e-1
-        (T_1in0, R_1in0, eulerAngles, p_1in0) = forward_kinematics(theta)
+        (T_1in0, R_1in0, eulerAngles, p_1in0) = forward_kinematics(theta,robo)
 
         V_01in0_bracket = linalg.logm(np.dot(T_2in0, linalg.inv(T_1in0)))
 
@@ -148,6 +228,118 @@ def inverse_kinematic(position, euler_vector):
     print(theta, end='\n\n')
 
     return (theta)
+
+
+def closed_chain_inerpolate(theta_start,theta_goal):
+    b = 100
+    theta_int = np.zeros(theta_start.shape[0],b)
+    s = np.linspace(0,1,b)
+    for i in range(0,len(s)):
+        theta_int[:,i] = (s[1,i]-1)*theta_start + s[1,i]*theta_goal
+
+    return theta_int
+
+
+#Calculates the angles of the slave part of a closed chain robot
+def closed_chain_slave_theta(theta_master):
+    theta = np.zeros((n,1))
+    #theta[0,0] = 0
+    theta[1,0] = -theta_master[1,0]
+    theta[2, 0] = -theta_master[2, 0]
+    theta[3, 0] = -theta_master[3, 0]
+    #theta(4,0) = 0
+    theta[5, 0] = -theta_master[5, 0]
+
+    print('\nFinal slave angles that achieve the desired pose: ')
+    print(theta, end='\n\n')
+
+    return theta
+
+
+
+#Calculate the necessary joint angles of the robot in a closed loop, in order to achieve a given pose. If it is not achievable then the function throws out an exception
+def closed_chain_inverse_kinematic(position, euler_vector, robo):
+
+    if robo == 0:
+        S = S_robot0
+        S1_skew = S1_skew_robot0
+        S2_skew = S2_skew_robot0
+        S3_skew = S3_skew_robot0
+        S4_skew = S4_skew_robot0
+        S5_skew = S5_skew_robot0
+        S6_skew = S6_skew_robot0
+        M = M_robot0
+    elif robo == 1:
+        S = S_robot1
+        S1_skew = S1_skew_robot1
+        S2_skew = S2_skew_robot1
+        S3_skew = S3_skew_robot1
+        S4_skew = S4_skew_robot1
+        S5_skew = S5_skew_robot1
+        S6_skew = S6_skew_robot1
+        M = M_robot1
+
+    R = euler_angles_to_rotation_matrix(euler_vector)
+
+    T_2in0 = np.matrix([[R[0,0], R[0,1], R[0,2], position[0,0]], [R[1,0], R[1,1], R[1,2], position[1,0]], [R[2,0], R[2,1], R[2,2], position[2,0]], [0, 0, 0, 1]])
+
+    print('\nDesired pose: ')
+    print(T_2in0, end='\n\n')
+
+    epsilon = 0.01
+
+    theta = np.random.rand(n, 1)
+    #Setting the first and fifth angles to zero to comply with closed chain requirements
+    theta[0,0] = 0
+    theta[4,0] = 0
+
+    V_01in0 = 1
+
+    t_start = time.process_time()
+    count = 0
+    while linalg.norm(V_01in0) >= epsilon:
+        mu = 1e-1
+        (T_1in0, R_1in0, eulerAngles, p_1in0) = forward_kinematics(theta,robo)
+
+        V_01in0_bracket = linalg.logm(np.dot(T_2in0, linalg.inv(T_1in0)))
+
+        V_01in0 = np.matrix([V_01in0_bracket[2, 1], V_01in0_bracket[0, 2], V_01in0_bracket[1, 0], V_01in0_bracket[0, 3], V_01in0_bracket[1, 3], V_01in0_bracket[2, 3]])
+        V_01in0.shape = (6,1)
+
+        a = S[0:6, 0]
+        b = np.dot(Adj(linalg.expm(S1_skew * theta[0,0])), S[0:6, 1])
+        c = np.dot(Adj(np.dot(linalg.expm(S1_skew*theta[0,0]), linalg.expm(S2_skew*theta[1,0]))), S[0:6, 2])
+        d = np.dot(Adj(np.dot(np.dot(linalg.expm(S1_skew*theta[0,0]),linalg.expm(S2_skew*theta[1,0])), linalg.expm(S3_skew*theta[2,0]))), S[0:6, 3])
+        e = np.dot(Adj(np.dot(np.dot(np.dot(linalg.expm(S1_skew*theta[0,0]),linalg.expm(S2_skew*theta[1,0])), linalg.expm(S3_skew*theta[2,0])), linalg.expm(S4_skew*theta[3,0]))), S[0:6, 4])
+        f = np.dot(Adj(np.dot(np.dot(np.dot(np.dot(linalg.expm(S1_skew*theta[0,0]),linalg.expm(S2_skew*theta[1,0])), linalg.expm(S3_skew*theta[2,0])), linalg.expm(S4_skew*theta[3,0])), linalg.expm(S5_skew*theta[4,0]))), S[0:6, 5])
+
+        j_in0 = np.matrix([[a[0,0], b[0,0], c[0,0], d[0,0], e[0,0], f[0,0]], [a[1,0], b[1,0], c[1,0], d[1,0], e[1,0], f[1,0]], [a[2,0], b[2,0], c[2,0], d[2,0], e[2,0], f[2,0]], [a[3,0], b[3,0], c[3,0], d[3,0], e[3,0], f[3,0]], [a[4,0], b[4,0], c[4,0], d[4,0], e[4,0], f[4,0]], [a[5,0], b[5,0], c[5,0], d[5,0], e[5,0], f[5,0]]])
+
+        thetadot = np.dot(np.dot(linalg.inv(np.dot(j_in0.transpose(), j_in0) + np.dot(mu,np.eye(6))), j_in0.transpose()), V_01in0)
+
+        theta = theta + thetadot*1
+        theta[0, 0] = 0
+        theta[4, 0] = 0
+
+        t_now = time.process_time()
+
+        if t_now-t_start > 15:
+            t_start = time.process_time()
+            theta = np.random.rand(n, 1)
+            # Setting the first and fifth angles to zero to comply with closed chain requirements
+            theta[0, 0] = 0
+            theta[4, 0] = 0
+            count= count+1
+            if count > 15:
+                print('Stopping program because the input position and orientation is not reachable by the robot\n')
+                raise Exception('Goal position is not reachable')
+
+    print('\nFinal angles that achieve the desired pose: ')
+    print(theta, end='\n\n')
+
+    return (theta)
+
+
 
 # Checks if a matrix is a valid rotation matrix.
 def isRotationMatrix(R):
@@ -347,7 +539,7 @@ def get_reference_object_handles(clientID):
 #Moves the joint of the robot to the prescribed angle given
 def move_robot (clientID, theta, robo, robot_handles,ref_object_handles):
 
-    (T_1in0, R_1in0, end_eulerAngles, end_position) = forward_kinematics(theta)
+    (T_1in0, R_1in0, end_eulerAngles, end_position) = forward_kinematics(theta,robo)
 
     #robot_handles = get_robot_handles(clientID, robo)
 
@@ -390,35 +582,35 @@ def move_robot (clientID, theta, robo, robot_handles,ref_object_handles):
 
     #vrep.simxPauseCommunication(clientID, True)
 
-    targetVelocity = 200
+    #targetVelocity = 50
     # Position all the joint angles according to user input
     # Set the desired value of the first joint variable
-    vrep.simxSetJointTargetVelocity(clientID, robot_handles[0], targetVelocity, vrep.simx_opmode_streaming)
+    #vrep.simxSetJointTargetVelocity(clientID, robot_handles[0], targetVelocity, vrep.simx_opmode_streaming)
     vrep.simxSetJointTargetPosition(clientID, robot_handles[0], theta[0], vrep.simx_opmode_streaming)
     #time.sleep(2)  # Wait two seconds
 
     # Set the desired value of the second joint variable
-    vrep.simxSetJointTargetVelocity(clientID, robot_handles[1], targetVelocity, vrep.simx_opmode_streaming)
+    #vrep.simxSetJointTargetVelocity(clientID, robot_handles[1], targetVelocity, vrep.simx_opmode_streaming)
     vrep.simxSetJointTargetPosition(clientID, robot_handles[1], theta[1], vrep.simx_opmode_streaming)
     #time.sleep(2)  # Wait two seconds
 
     # Set the desired value of the third joint variable
-    vrep.simxSetJointTargetVelocity(clientID, robot_handles[2], targetVelocity, vrep.simx_opmode_streaming)
+    #vrep.simxSetJointTargetVelocity(clientID, robot_handles[2], targetVelocity, vrep.simx_opmode_streaming)
     vrep.simxSetJointTargetPosition(clientID, robot_handles[2], theta[2], vrep.simx_opmode_streaming)
     #time.sleep(2)  # Wait two seconds
 
     # Set the desired value of the fourth joint variable
-    vrep.simxSetJointTargetVelocity(clientID, robot_handles[3], targetVelocity, vrep.simx_opmode_streaming)
+    #vrep.simxSetJointTargetVelocity(clientID, robot_handles[3], targetVelocity, vrep.simx_opmode_streaming)
     vrep.simxSetJointTargetPosition(clientID, robot_handles[3], theta[3], vrep.simx_opmode_streaming)
     #time.sleep(2)  # Wait two seconds
 
     # Set the desired value of the fifth joint variable
-    vrep.simxSetJointTargetVelocity(clientID, robot_handles[4], targetVelocity, vrep.simx_opmode_streaming)
+    #vrep.simxSetJointTargetVelocity(clientID, robot_handles[4], targetVelocity, vrep.simx_opmode_streaming)
     vrep.simxSetJointTargetPosition(clientID, robot_handles[4], theta[4], vrep.simx_opmode_streaming)
     #time.sleep(2)  # Wait two seconds
 
     # Set the desired value of the sixth joint variable
-    vrep.simxSetJointTargetVelocity(clientID, robot_handles[5], targetVelocity, vrep.simx_opmode_streaming)
+    #vrep.simxSetJointTargetVelocity(clientID, robot_handles[5], targetVelocity, vrep.simx_opmode_streaming)
     vrep.simxSetJointTargetPosition(clientID, robot_handles[5], theta[5], vrep.simx_opmode_streaming)
     time.sleep(2)  # Wait two seconds
 
@@ -428,7 +620,7 @@ def move_robot (clientID, theta, robo, robot_handles,ref_object_handles):
 #Moves the joint of the robot to the prescribed angle given without simulation running
 def move_robot_without_simulation(clientID, theta, robo, robot_handles,ref_object_handles):
 
-    (T_1in0, R_1in0, end_eulerAngles, end_position) = forward_kinematics(theta)
+    (T_1in0, R_1in0, end_eulerAngles, end_position) = forward_kinematics(theta,robo)
 
     #robot_handles = get_robot_handles(clientID, robo)
 
