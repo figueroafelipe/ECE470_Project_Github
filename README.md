@@ -112,6 +112,21 @@ Path Plannar Algorithm
 
 Simulate the robot with the collision free path
 
+## Closed Chain Kinematics
+There are two approaches to achieve the dual-arm closed chain kinematics based on the previous derived method. First is the linearly interpolate object position from the initial position to the goal position. Apply a rigid body transformation to compute the pose of the tool frame for the UR3 A and the UR3 B. Apply the inverse kinematics to compute the joint angles for both the UR3 A and UR3 B with the interpolated object position poses. The second method is linearly interpolating one robot's joints angles to calculate the other robot's joints angles. Choose sample joint angles for the UR3 A.  Apply forward kinematics to compute the pose of the tool frame for robot A. Use matrix transformation to get the pose of the UR3 B tool frame. Apply inverse kinematics to compute the joint angles for the UR3 B. Apply the forward kinematics for both the UR3 A and B the same time with the sample joint angles for A and calculated joint angles for B.
+
+Init.
+thetaAStart = InverseKinematics ( M_start)
+thetaAGoal = InverseKinematics ( M_goal)
+
+for s = linspace (0, 1, 100)
+     thetaA = (1- s) * thetaAStart + s * thetaAGoal
+     M_A= ForwardKinematics (thetaA)
+     M_B = T * M_A
+     thetaB = InverseKinematics (M_B)
+ end
+
+
 ## References
 
 
